@@ -1,2 +1,2 @@
 # release-log
-CLI Tool to Prepare Logs for Git Releases
+CLI Tool to prepare Logs for Git Releases

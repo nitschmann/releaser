@@ -21,6 +21,5 @@ jobs:
     - name: Create info for the new release
       id: release_info
       run: |
-        git fetch --all
-        
+        git fetch --all        
         echo $(git tag -l --sort=v:refname)

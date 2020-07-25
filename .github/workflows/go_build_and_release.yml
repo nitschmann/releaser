@@ -28,7 +28,7 @@ jobs:
       id: release_info
       run: |
         git fetch --all
-        new_version=$(./.build/release-log-darwin-amd64 new-version)
+        new_version=$(./.build/release-log-linux-amd64 new-version)
         echo ${new_version}
 #        #echo ::set-output name=new_version::$(go run cmd/releaselog/main.go version)
 #        #echo ::set-output name=changelog::$(go run cmd/releaselog/main.go changelog)

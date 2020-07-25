@@ -1,4 +1,4 @@
-name: Go build and release
+name: Go build and create release
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    name: Build and release Go package
+    name: Go build and create release
     runs-on: ubuntu-latest
     steps:
     - name: Set up Go 1.14
@@ -18,13 +18,13 @@ jobs:
     - name: Check out code into the Go module directory
       uses: actions/checkout@v2
 
-    - name: Build binaries using Makefile
+    - name: Build Go binaries with Makefile
       id: build_binaries
       run: | 
         git fetch --all
         make build-new-version
     
-    - name: Create release info
+    - name: Create info for the new release
       id: release_info
       run: |
         changelog=$(./.build/release-log-linux-amd64 changelog)
@@ -39,7 +39,7 @@ jobs:
         echo ::set-output name=changelog::$changelog
         echo ::set-output name=title::$title
    
-    - name: Create new release
+    - name: Create a new release
       id: create_release
       uses: actions/create-release@main
       env:
@@ -49,5 +49,63 @@ jobs:
         release_name: ${{ steps.release_info.outputs.title }}
         body: |
           ${{ steps.release_info.outputs.changelog }}
-        draft: true
+          
+    - name: Upload release asset binary release-log-darwin-386
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }} 
+        asset_path: ./.build/release-log-darwin-386
+        asset_name: release-log-darwin-386
+        asset_content_type: application/binary
+
+    - name: Upload release asset binary release-log-darwin-amd64
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }} 
+        asset_path: ./.build/release-log-darwin-amd64
+        asset_name: release-log-darwin-amd64
+        asset_content_type: application/binary
       
+    - name: Upload release asset binary release-log-linux-386
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }} 
+        asset_path: ./.build/release-log-linux-386
+        asset_name: release-log-linux-386
+        asset_content_type: application/binary
+    
+    - name: Upload release asset binary release-log-linux-amd64
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }} 
+        asset_path: ./.build/release-log-linux-amd64
+        asset_name: release-log-linux-amd64
+        asset_content_type: application/binary
+
+    - name: Upload release asset binary release-log-linux-arm
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }} 
+        asset_path: ./.build/release-log-linux-arm
+        asset_name: release-log-linux-arm
+        asset_content_type: application/binary
+
+    - name: Upload release asset binary release-log-linux-arm64
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }} 
+        asset_path: ./.build/release-log-linux-arm64
+        asset_name: release-log-linux-arm64
+        asset_content_type: application/binary

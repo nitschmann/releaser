@@ -3,8 +3,8 @@ package cmd
 import (
 	"fmt"
 
-	"github.com.com/nitschmann/release-log/internal/app/config"
-	gitServ "github.com.com/nitschmann/release-log/internal/app/git/service"
+	"github.com/nitschmann/release-log/internal/app/config"
+	gitServ "github.com/nitschmann/release-log/internal/app/git/service"
 	"github.com/spf13/cobra"
 )
 
@@ -16,12 +16,24 @@ func newFullCmd() *cobra.Command {
 		Long:    "Prints full release log including new version tag, changelog and compare URL",
 		Run: func(cmd *cobra.Command, args []string) {
 			versionTagService := gitServ.NewVersionTagService(config.Get().FirstVersion)
-			newVersion, err := versionTagService.BuildNew(config.Get().NewVersion)
+
+			latestVersioTag, err := versionTagService.LatestVersionTag(config.Get().LatestVersion)
 			if err != nil {
 				printCliErrorAndExit(err)
 			}
 
-			fmt.Println(newVersion)
+			_, err = versionTagService.BuildNew(config.Get().NewVersion)
+			if err != nil {
+				printCliErrorAndExit(err)
+			}
+
+			logService := gitServ.NewLogService(versionTagService)
+			changelog, err := logService.ChangelogFromVersionTag(latestVersioTag)
+			if err != nil {
+				printCliErrorAndExit(err)
+			}
+
+			fmt.Println(changelog)
 		},
 	}
 

@@ -3,7 +3,7 @@ package git
 import (
 	"strings"
 
-	"github.com.com/nitschmann/release-log/pkg/util"
+	"github.com/nitschmann/release-log/pkg/util"
 )
 
 // List all Git tags in reverse order by vX.X

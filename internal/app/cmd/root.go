@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com.com/nitschmann/release-log/internal/app/config"
 	"github.com/joho/godotenv"
+	"github.com/nitschmann/release-log/internal/app/config"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -72,8 +72,8 @@ func setRootCmdFlags() {
 	rootCmd.PersistentFlags().StringP("git-executable", "g", "git", "The system-wide used Git executable")
 	rootCmd.PersistentFlags().StringP("git-remote", "r", "origin", "Git remote which should be used for comparison")
 	rootCmd.PersistentFlags().StringP("git-repo-url", "u", "", "Git repository URL which could be overwritten. (If no URL is given the one of the git-remote is used)")
-	rootCmd.PersistentFlags().String("new-version", "", "New Git release version to be used (if not given it will be detected automatically using git)")
-	rootCmd.PersistentFlags().String("previous-version", "", "Previous Git release version to be used (if not given it will be detected automatically using git)")
+	rootCmd.PersistentFlags().String("new-version", "", "New Git release version tag to be used (if not given it will be detected automatically using git)")
+	rootCmd.PersistentFlags().String("latest-version", "", "Latest Git release version tag to be used (if not given it will be detected automatically using git)")
 }
 
 func setRootCmdViperBindings() {
@@ -82,5 +82,5 @@ func setRootCmdViperBindings() {
 	viper.BindPFlag("git_remote", rootCmd.PersistentFlags().Lookup("git-remote"))
 	viper.BindPFlag("git_repo_url", rootCmd.PersistentFlags().Lookup("git-repo-url"))
 	viper.BindPFlag("new_version", rootCmd.PersistentFlags().Lookup("new-version"))
-	viper.BindPFlag("previous_version", rootCmd.PersistentFlags().Lookup("previous-version"))
+	viper.BindPFlag("latest_version", rootCmd.PersistentFlags().Lookup("latest-version"))
 }

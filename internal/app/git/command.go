@@ -4,7 +4,7 @@ import (
 	"os/exec"
 	"strings"
 
-	"github.com.com/nitschmann/release-log/internal/app/config"
+	"github.com/nitschmann/release-log/internal/app/config"
 )
 
 // Executes a git command with the given args

@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com.com/nitschmann/release-log/internal/app/cmd"
+	"github.com/nitschmann/release-log/internal/app/cmd"
 )
 
 func main() {

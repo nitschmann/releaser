@@ -3,8 +3,8 @@ package cmd
 import (
 	"fmt"
 
-	"github.com.com/nitschmann/release-log/internal/app/config"
-	gitServ "github.com.com/nitschmann/release-log/internal/app/git/service"
+	"github.com/nitschmann/release-log/internal/app/config"
+	gitServ "github.com/nitschmann/release-log/internal/app/git/service"
 	"github.com/spf13/cobra"
 )
 
@@ -16,7 +16,7 @@ func newLatestVersionCmd() *cobra.Command {
 		Long:    "Prints the latest availabe version tag. Is empty if no tag is available yet.",
 		Run: func(cmd *cobra.Command, args []string) {
 			versionTagService := gitServ.NewVersionTagService(config.Get().FirstVersion)
-			latestVersion, err := versionTagService.LatestVersionTag()
+			latestVersion, err := versionTagService.LatestVersionTag(config.Get().LatestVersion)
 			if err != nil {
 				printCliErrorAndExit(err)
 			}

@@ -9,12 +9,12 @@ import (
 
 // Application config data struct
 type Config struct {
-	FirstVersion    string `mapstructure:"first_version" validate="required"`
-	GitExecutable   string `mapstructure:"git_executable" validate="required"`
-	GitRemote       string `mapstructure:"git_remote" validate="required"`
-	GitRepoUrl      string `mapstructure:"git_repo_url"`
-	NewVersion      string `mapstructure:"new_version"`
-	PreviousVersion string `mapstructure:"previous_version"`
+	FirstVersion  string `mapstructure:"first_version" validate="required"`
+	GitExecutable string `mapstructure:"git_executable" validate="required"`
+	GitRemote     string `mapstructure:"git_remote" validate="required"`
+	GitRepoUrl    string `mapstructure:"git_repo_url"`
+	NewVersion    string `mapstructure:"new_version"`
+	LatestVersion string `mapstructure:"latest_version"`
 }
 
 var (

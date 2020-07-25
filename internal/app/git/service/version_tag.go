@@ -4,17 +4,16 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com.com/nitschmann/release-log/internal/app/git"
+	"github.com/nitschmann/release-log/internal/app/git"
 )
 
+// Service to handle git (version) tags
 type VersionTagService struct {
-	DefaultFirstVersion string
+	defaultFirstVersion string
 }
 
 func NewVersionTagService(defaultFirstVersion string) *VersionTagService {
-	return &VersionTagService{
-		DefaultFirstVersion: defaultFirstVersion,
-	}
+	return &VersionTagService{defaultFirstVersion: defaultFirstVersion}
 }
 
 // Builds a new version git tag (returns the defined first version if no git tag is given yet).
@@ -39,24 +38,28 @@ func (s VersionTagService) BuildNew(newVersion string) (string, error) {
 
 			return strings.Join(previousVersionParts, "."), nil
 		} else {
-			return s.DefaultFirstVersion, nil
+			return s.defaultFirstVersion, nil
 		}
 	} else {
 		return newVersion, nil
 	}
 }
 
-// Gets the latest version tag
-func (s VersionTagService) LatestVersionTag() (string, error) {
-	versions, err := git.TagList()
-	if err != nil {
-		return "", err
-	}
+// Gets the latest version tag from the list or just return the given latestVersionTag parameter
+func (s VersionTagService) LatestVersionTag(latestVersionTag string) (string, error) {
+	if latestVersionTag == "" {
+		versions, err := git.TagList()
+		if err != nil {
+			return "", err
+		}
 
-	if len(versions) >= 1 {
-		return versions[len(versions)-1], nil
+		if len(versions) >= 1 {
+			return versions[len(versions)-1], nil
+		} else {
+			return "", nil
+		}
 	} else {
-		return "", nil
+		return latestVersionTag, nil
 	}
 }
 

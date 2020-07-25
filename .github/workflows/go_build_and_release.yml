@@ -27,6 +27,8 @@ jobs:
     - name: Create info for the new release
       id: release_info
       run: |
+        git fetch --all
+        
         changelog=$(./.build/release-log-linux-amd64 changelog)
         new_version=$(./.build/release-log-linux-amd64 new-version)
         title=$(./.build/release-log-linux-amd64 title)

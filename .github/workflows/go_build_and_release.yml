@@ -43,7 +43,6 @@ jobs:
       with:
         tag_name: ${{ steps.release_info.outputs.new_version }}
         release_name: ${{ steps.release_info.outputs.title }}
-        body: |
-          ${{ steps.release_info.outputs.changelog }}
+        body: ${{ steps.release_info.outputs.changelog }}
         draft: true
       

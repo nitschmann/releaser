@@ -31,8 +31,6 @@ jobs:
         new_version=$(./.build/release-log-linux-amd64 new-version)
         title=$(./.build/release-log-linux-amd64 title)
         
-        printf ${changelog}
-        
         echo ::set-output name=new_version::$(echo ${new_version})
         echo ::set-output name=changelog::$(printf ${changelog})
         echo ::set-output name=title::$(echo ${title})
@@ -45,6 +43,7 @@ jobs:
       with:
         tag_name: ${{ steps.release_info.outputs.new_version }}
         release_name: ${{ steps.release_info.outputs.title }}
-        body: ${{ steps.release_info.outputs.changelog }}
+        body: |
+          ${{ steps.release_info.outputs.changelog }}
         draft: true
       

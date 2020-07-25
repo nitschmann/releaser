@@ -11,7 +11,7 @@ import (
 func newFullCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:     "full",
-		Aliases: []string{"f"},
+		Aliases: []string{"f", "full-log"},
 		Short:   "Prints full release log including new version tag, changelog and compare URL",
 		Long:    "Prints full release log including new version tag, changelog and compare URL",
 		Run: func(cmd *cobra.Command, args []string) {

@@ -18,11 +18,11 @@ jobs:
     - name: Check out code into the Go module directory
       uses: actions/checkout@v2
 
-    - name: Build binaries using Makefile
-      id: build_binaries
-      run: |
-        go mod download
-        make build-new-version
+   # - name: Build binaries using Makefile
+   #   id: build_binaries
+   #   run: |
+   #     go mod download
+   #     make build-new-version
     
     - name: Create release info
       id: release_info
@@ -30,7 +30,15 @@ jobs:
         echo ::set-output name=new_version::$(go run cmd/releaselog/main.go version)
         echo ::set-output name=changelog::$(go run cmd/releaselog/main.go changelog)
         echo ::set-output name=title::$(go run cmd/releaselog/main.go title)
-        
-    - name: Print vars
-      run: |
-        echo ${{ steps.release_info.title }}
+   
+    - name: Create new release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ steps.release_info.outputs.new_version }}
+        release_name: ${{ steps.release_info.outputs.title }}
+        body: ${{ steps.release_info.outputs.changelog }}
+        draft: true
+      

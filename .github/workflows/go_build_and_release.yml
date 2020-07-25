@@ -18,17 +18,17 @@ jobs:
     - name: Check out code into the Go module directory
       uses: actions/checkout@v2
 
-   # - name: Build binaries using Makefile
-   #   id: build_binaries
-   #   run: |
-   #     go mod download
-   #     make build-new-version
+    - name: Build binaries using Makefile
+      id: build_binaries
+      run: |
+        go mod download
+        make build-new-version-linux-amd64
     
     - name: Create release info
       id: release_info
       run: |
         echo "hello world!"
-        echo "$(go run cmd/releaselog/main.go version)"
+        echo "$(./.build/release-log-linux-amd64 new-version)"
 #        #echo ::set-output name=new_version::$(go run cmd/releaselog/main.go version)
 #        #echo ::set-output name=changelog::$(go run cmd/releaselog/main.go changelog)
 #        # echo ::set-output name=title::$(go run cmd/releaselog/main.go title)

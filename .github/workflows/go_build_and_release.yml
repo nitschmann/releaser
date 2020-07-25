@@ -28,7 +28,8 @@ jobs:
       id: release_info
       run: |
         echo "hello world!"
-        echo "$(git tag -l --sort=v:refname)"
+        /usr/bin/git fetch --all
+        echo "$(/usr/bin/git tag -l --sort=v:refname)"
 #        #echo ::set-output name=new_version::$(go run cmd/releaselog/main.go version)
 #        #echo ::set-output name=changelog::$(go run cmd/releaselog/main.go changelog)
 #        # echo ::set-output name=title::$(go run cmd/releaselog/main.go title)

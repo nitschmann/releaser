@@ -23,7 +23,7 @@ func Execute() {
 // Package initialization
 func init() {
 	cobra.OnInitialize(initAppConfig)
-	rootCmd = newRootCmd()
+	rootCmd = NewRootCmd()
 
 	setRootCmdFlags()
 	setRootCmdViperBindings()
@@ -36,7 +36,7 @@ func initAppConfig() {
 	config.Init()
 }
 
-func newRootCmd() *cobra.Command {
+func NewRootCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "release-log",
 		Short: "CLI tool for Git release versions and logs",
@@ -55,6 +55,7 @@ func newRootCmd() *cobra.Command {
 		},
 	}
 
+	cmd.AddCommand(newChangelogCmd())
 	cmd.AddCommand(newFullCmd())
 	cmd.AddCommand(newLatestVersionCmd())
 	cmd.AddCommand(newNewVersionCmd())

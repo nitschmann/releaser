@@ -8,7 +8,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func newTtitleCmd() *cobra.Command {
+func newTitleCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:     "title",
 		Aliases: []string{"t", "release-title"},

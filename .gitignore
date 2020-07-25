@@ -15,6 +15,6 @@
 # vendor/
 .env
 
-.build
+.build/*
 !.build/.keep
 

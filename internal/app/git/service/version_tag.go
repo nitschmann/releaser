@@ -36,7 +36,7 @@ func (s VersionTagService) CreateNew(newVersion string) (string, error) {
 			newVersionNum := previousVersionPartNum + 1
 			previousVersionParts[len(previousVersionParts)-1] = strconv.Itoa(newVersionNum)
 
-			return strings.Join(previousVersionParts, "."), nil
+			return "v" + strings.Join(previousVersionParts, "."), nil
 		} else {
 			return s.defaultFirstVersion, nil
 		}

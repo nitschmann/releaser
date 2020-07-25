@@ -27,6 +27,7 @@ jobs:
     - name: Create release info
       id: release_info
       run: |
+        go mod download
         new_version=$(go run cmd/releaselog/main.go version)
         echo ${new_version}
 #        #echo ::set-output name=new_version::$(go run cmd/releaselog/main.go version)

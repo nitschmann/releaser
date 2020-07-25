@@ -22,11 +22,13 @@ jobs:
       id: build_binaries
       run: | 
         git fetch --all
+        git fetch --unshallow --tags
+
         make build-new-version
-    
+
     - name: Create info for the new release
       id: release_info
-      run: |
+      run: |        
         changelog=$(./.build/release-log-linux-amd64 changelog)
         new_version=$(./.build/release-log-linux-amd64 new-version)
         title=$(./.build/release-log-linux-amd64 title)

@@ -22,4 +22,6 @@ jobs:
       id: release_info
       run: |
         git fetch --all        
+        git fetch --unshallow --tags
+        
         echo $(git tag -l --sort=v:refname)

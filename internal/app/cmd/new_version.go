@@ -8,12 +8,12 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func newFullCmd() *cobra.Command {
+func newNewVersionCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:     "full",
-		Aliases: []string{"f"},
-		Short:   "Prints full release log including new version tag, changelog and compare URL",
-		Long:    "Prints full release log including new version tag, changelog and compare URL",
+		Use:     "new-version",
+		Aliases: []string{"n", "new", "new-tag"},
+		Short:   "Prints the new version tag",
+		Long:    "Prints the new version tag",
 		Run: func(cmd *cobra.Command, args []string) {
 			versionTagService := gitServ.NewVersionTagService(config.Get().FirstVersion)
 			newVersion, err := versionTagService.BuildNew(config.Get().NewVersion)

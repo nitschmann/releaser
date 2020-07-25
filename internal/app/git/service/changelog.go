@@ -4,20 +4,21 @@ import (
 	"strings"
 
 	"github.com/nitschmann/release-log/internal/app/git"
+	"github.com/nitschmann/release-log/pkg/util"
 )
 
 // Service to handle git logs
-type LogService struct {
+type ChangelogService struct {
 	versionTagService *VersionTagService
 }
 
-func NewLogService(versionTagService *VersionTagService) *LogService {
-	return &LogService{versionTagService: versionTagService}
+func NewChangelogService(versionTagService *VersionTagService) *ChangelogService {
+	return &ChangelogService{versionTagService: versionTagService}
 }
 
 // Returns a list of git log since the latest given version tag.
 // If latestVersionTag parameter is empty all current commits are used.
-func (s LogService) ChangelogFromVersionTag(latestVersionTag string) ([]string, error) {
+func (s ChangelogService) ChangelogFromVersionTag(latestVersionTag string) ([]string, error) {
 	var logOutput []string
 	var gitCmdArgs []string
 
@@ -34,5 +35,5 @@ func (s LogService) ChangelogFromVersionTag(latestVersionTag string) ([]string, 
 
 	logOutput = strings.Split(gitCommitLog, "\n")
 
-	return logOutput, nil
+	return util.CleanList(logOutput), nil
 }

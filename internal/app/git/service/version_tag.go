@@ -18,7 +18,7 @@ func NewVersionTagService(defaultFirstVersion string) *VersionTagService {
 
 // Builds a new version git tag (returns the defined first version if no git tag is given yet).
 // If newVersion par present this one is used
-func (s VersionTagService) BuildNew(newVersion string) (string, error) {
+func (s VersionTagService) CreateNew(newVersion string) (string, error) {
 	if newVersion == "" {
 		versions, err := git.TagList()
 		if err != nil {
@@ -61,17 +61,4 @@ func (s VersionTagService) LatestVersionTag(latestVersionTag string) (string, er
 	} else {
 		return latestVersionTag, nil
 	}
-}
-
-// Return the previous version tag for a given version tag
-func (s VersionTagService) PreviousVersionTag(currentVersionTag string) (string, error) {
-	previousVersionParts := strings.Split(strings.TrimPrefix(currentVersionTag, "v"), ".")
-	previousVersionPartNum, err := strconv.Atoi(previousVersionParts[len(previousVersionParts)-1])
-	if err != nil {
-		return "", nil
-	}
-
-	previousVersionParts[len(previousVersionParts)-1] = strconv.Itoa(previousVersionPartNum - 1)
-
-	return strings.Join(previousVersionParts, "."), nil
 }

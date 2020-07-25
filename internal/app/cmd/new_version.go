@@ -16,7 +16,7 @@ func newNewVersionCmd() *cobra.Command {
 		Long:    "Prints the new version tag",
 		Run: func(cmd *cobra.Command, args []string) {
 			versionTagService := gitServ.NewVersionTagService(config.Get().FirstVersion)
-			newVersion, err := versionTagService.BuildNew(config.Get().NewVersion)
+			newVersion, err := versionTagService.CreateNew(config.Get().NewVersion)
 			if err != nil {
 				printCliErrorAndExit(err)
 			}

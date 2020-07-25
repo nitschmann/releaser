@@ -31,18 +31,23 @@ jobs:
         new_version=$(./.build/release-log-linux-amd64 new-version)
         title=$(./.build/release-log-linux-amd64 title)
         
-        echo ::set-output name=new_version::$(echo ${new_version})
-        echo ::set-output name=changelog::$(printf ${changelog})
-        echo ::set-output name=title::$(echo ${title})
+        changelog="${changelog//'%'/'%25'}"
+        changelog="${changelog//$'\n'/'%0A'}"
+        changelog="${changelog//$'\r'/'%0D'}"
+        
+        echo ::set-output name=new_version::$new_version
+        echo ::set-output name=changelog::$changelog
+        echo ::set-output name=title::$title
    
     - name: Create new release
       id: create_release
-      uses: actions/create-release@v1
+      uses: actions/create-release@main
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag_name: ${{ steps.release_info.outputs.new_version }}
         release_name: ${{ steps.release_info.outputs.title }}
-        body: ${{ steps.release_info.outputs.changelog }}
+        body: |
+          ${{ steps.release_info.outputs.changelog }}
         draft: true
       

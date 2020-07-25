@@ -31,8 +31,10 @@ jobs:
         new_version=$(./.build/release-log-linux-amd64 new-version)
         title=$(./.build/release-log-linux-amd64 title)
         
+        printf ${changelog}
+        
         echo ::set-output name=new_version::$(echo ${new_version})
-        echo ::set-output name=changelog::$(echo ${changelog})
+        echo ::set-output name=changelog::$(printf ${changelog})
         echo ::set-output name=title::$(echo ${title})
    
     - name: Create new release

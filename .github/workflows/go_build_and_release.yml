@@ -27,7 +27,8 @@ jobs:
     - name: Create release info
       id: release_info
       run: |
-        echo 'hello world!'
+        echo "hello world!"
+        echo "$(go run cmd/releaselog/main.go version)"
 #        #echo ::set-output name=new_version::$(go run cmd/releaselog/main.go version)
 #        #echo ::set-output name=changelog::$(go run cmd/releaselog/main.go changelog)
 #        # echo ::set-output name=title::$(go run cmd/releaselog/main.go title)

@@ -10,7 +10,12 @@ import (
 	"github.com/spf13/viper"
 )
 
-var rootCmd *cobra.Command
+var (
+	// Global CLI app version
+	AppVersion string
+
+	rootCmd *cobra.Command
+)
 
 // App-wide CLI entrypoint
 func Execute() {
@@ -36,6 +41,7 @@ func initAppConfig() {
 	config.Init()
 }
 
+// Global and public facing root command
 func NewRootCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "release-log",
@@ -60,6 +66,7 @@ func NewRootCmd() *cobra.Command {
 	cmd.AddCommand(newLatestVersionCmd())
 	cmd.AddCommand(newNewVersionCmd())
 	cmd.AddCommand(newTitleCmd())
+	cmd.AddCommand(newVersionCmd())
 
 	return cmd
 }

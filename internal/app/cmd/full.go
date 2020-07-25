@@ -39,7 +39,7 @@ func newFullCmd() *cobra.Command {
 
 			releaseService := gitServ.NewReleaseService(config.Get().GitRemote, config.Get().GitRepoUrl)
 			releaseTitle := releaseService.Title(newVersionTag)
-			releaseCompareUrl, err := releaseService.RepoVersionCompareURL(latestVersionTag, newVersionTag)
+			releaseCompareUrl, err := releaseService.RepoVersionTagCompareURL(latestVersionTag, newVersionTag)
 			if err != nil {
 				printCliErrorAndExit(err)
 			}

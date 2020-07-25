@@ -30,7 +30,9 @@ func (s ReleaseService) Title(newVersionTag string) string {
 	return fmt.Sprintf("Release %s (%s)", newVersionTag, t)
 }
 
-func (s ReleaseService) RepoVersionCompareURL(latestVersionTag string, newVersionTag string) (string, error) {
+// Creates a compare HTTP URL of the repo for two versions. Returns empty string if latestVersionTag
+// is an empty string.
+func (s ReleaseService) RepoVersionTagCompareURL(latestVersionTag string, newVersionTag string) (string, error) {
 	if latestVersionTag == "" {
 		return "", nil
 	} else {

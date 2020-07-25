@@ -20,29 +20,29 @@ jobs:
 
     - name: Build binaries using Makefile
       id: build_binaries
-      run: |
-        go mod download
-        make build-new-version-linux-amd64
+      run: | 
+        git fetch --all
+        make build-new-version
     
     - name: Create release info
       id: release_info
       run: |
-        git fetch --all
+        changelog=$(./.build/release-log-linux-amd64 changelog)
         new_version=$(./.build/release-log-linux-amd64 new-version)
-        echo ${new_version}
-#        #echo ::set-output name=new_version::$(go run cmd/releaselog/main.go version)
-#        #echo ::set-output name=changelog::$(go run cmd/releaselog/main.go changelog)
-#        # echo ::set-output name=title::$(go run cmd/releaselog/main.go title)
-#   
-   # - name: Create new release
-   #   id: create_release
-   #   uses: actions/create-release@v1
-   #   if: ${{ steps.release_info.outputs.new_version }}
-   #   env:
-   #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-   #   with:
-   #     tag_name: ${{ steps.release_info.outputs.new_version }}
-   #     release_name: ${{ steps.release_info.outputs.title }}
-   #     body: ${{ steps.release_info.outputs.changelog }}
-   #     draft: true
+        title=$(./.build/release-log-linux-amd64 title)
+        
+        echo ::set-output name=new_version::$(echo ${new_version})
+        echo ::set-output name=changelog::$(echo ${changelog})
+        echo ::set-output name=title::$(echo ${title})
+   
+    - name: Create new release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ steps.release_info.outputs.new_version }}
+        release_name: ${{ steps.release_info.outputs.title }}
+        body: ${{ steps.release_info.outputs.changelog }}
+        draft: true
       

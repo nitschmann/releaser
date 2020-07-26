@@ -46,5 +46,5 @@ latest_release_tag=${latest_release_tag_url##*/}
 binary_name="release-log-$machine_os-$architecture"
 binary_download_url="$releases_base_url/download/$latest_release_tag/$binary_name"
 
-curl -o /usr/local/bin/release-log -L $binary_download_url
-chmod +x /usr/local/bin/release-log
+curl -o /usr/bin/release-log -L $binary_download_url
+chmod +x /usr/bin/release-log

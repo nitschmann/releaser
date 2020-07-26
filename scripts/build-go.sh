@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# This script builds the Go application into a binary for the given (via input parameter) OS and arch
+
+# --- Helper methods
 contains_element () {
   local word=$1
   shift
@@ -7,19 +10,19 @@ contains_element () {
   return 1
 }
 
-# Support lists
+# --- Support lists
 supported_command=( latest new-version )
 supported_os=( darwin linux )
-supported_arch=( 386 amd64 arm arm64 )
+supported_architecture=( 386 amd64 arm arm64 )
 
-# User inputs
+# --- User inputs
 command=$1
 given_os=$2
 given_arch=$3
 version=$4
 
 if ! contains_element ${command} "${supported_command[@]}"; then
-  echo "Command is not supported!"
+  eco "Command is not supported!"
   exit 1
 fi
 
@@ -29,7 +32,7 @@ if ! contains_element ${given_os} "${supported_os[@]}"; then
 fi
 
 
-if ! contains_element ${given_arch} "${supported_arch[@]}"; then
+if ! contains_element ${given_arch} "${supported_architecture[@]}"; then
   echo "Given arch is not supported!"
   exit 1
 fi

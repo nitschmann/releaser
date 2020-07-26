@@ -44,7 +44,7 @@ func newFullCmd() *cobra.Command {
 				printCliErrorAndExit(err)
 			}
 
-			fmt.Println(releaseTitle + "\n\n")
+			fmt.Println(releaseTitle + "\n")
 			fmt.Printf("New version: %s\n", newVersionTag)
 
 			if latestVersionTag != "" && releaseCompareUrl != "" {

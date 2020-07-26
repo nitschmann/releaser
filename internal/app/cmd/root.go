@@ -45,8 +45,8 @@ func initAppConfig() {
 func NewRootCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "release-log",
-		Short: "CLI tool for Git release versions and logs",
-		Long:  "CLI tool for Git release changelogs, logs and versions",
+		Short: "CLI tool for Git release version tags and logs",
+		Long:  "CLI tool for Git release changelogs, logs and version tags",
 		PersistentPreRun: func(cmd *cobra.Command, args []string) {
 			err := config.Load()
 			if err != nil {

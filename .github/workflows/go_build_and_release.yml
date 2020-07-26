@@ -29,7 +29,7 @@ jobs:
     - name: Create info for the new release
       id: release_info
       run: |
-        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/nitschmann/release-log/master/scripts/install.sh)"
+        sudo /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/nitschmann/release-log/master/scripts/install.sh)"
 
         changelog=$(release-log changelog)
         new_version=$(release-log new-version)

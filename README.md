@@ -35,7 +35,7 @@ The [install script](scripts/install.sh) downloads the matching pre-compiled bin
 #### Steps
 
 1. Execute `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/nitschmann/release-log/master/scripts/install.sh)"`
-2. The script places the `release-log` binary under `/usr/bin` - so it should be on most systems and users accessible
+2. The script places the `release-log` binary under `/usr/local/bin` - so it should be on most systems and users accessible
 
 ### Compile it
 
@@ -56,7 +56,3 @@ All compiled binaries are placed in the [.build folder](.build), including the t
 ### CLI
 
 Usage documentation for the CLI could be found in a separate [folder](docs/cli/release-log.md).
-
-   
-
-

@@ -1,19 +1,19 @@
-## release-log title
+## release-log version
 
-Prints the title of the new release
+Version of release-log
 
 ### Synopsis
 
-Prints the title of the new release
+The version of release-log itself
 
 ```
-release-log title [flags]
+release-log version [flags]
 ```
 
 ### Options
 
 ```
-  -h, --help   help for title
+  -h, --help   help for version
 ```
 
 ### SEE ALSO

@@ -16,6 +16,17 @@ release-log latest-version [flags]
   -h, --help   help for latest-version
 ```
 
+### Options inherited from parent commands
+
+```
+      --first-version string    The first release version which should be initally used (default "v0.0.1")
+  -g, --git-executable string   The system-wide used Git executable (default "git")
+  -r, --git-remote string       Git remote which should be used for comparison (default "origin")
+  -u, --git-repo-url string     Git repository URL which could be overwritten. (If no URL is given the one of the git-remote is used)
+      --latest-version string   Latest Git release version tag to be used (if not given it will be detected automatically using git)
+      --new-version string      New Git release version tag to be used (if not given it will be detected automatically using git)
+```
+
 ### SEE ALSO
 
 * [release-log](release-log.md)	 - CLI tool for Git release version tags and logs

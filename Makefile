@@ -17,6 +17,10 @@ test:
 lint:
 	$(LOCAL_GOPATH)/bin/golint -set_exit_status ./...
 
+.PHONY: check-misspell
+check-misspell:
+	$(LOCAL_GOPATH)/bin/misspell ./**/* -error
+
 .PHONY: build-latest
 build-latest: build-latest-darwin build-latest-linux
 

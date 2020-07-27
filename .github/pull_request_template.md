@@ -1,4 +1,4 @@
-**Linked Issue:** Add an linked issue here
+**Linked Issue:** resolves __ISSUE_NUMBER__
 
 ### Summary
 Write a short summary what this pull request is about.

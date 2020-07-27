@@ -7,16 +7,17 @@ import (
 	"github.com/nitschmann/release-log/pkg/util"
 )
 
-// Service to handle git logs
+// ChangelogService is a service struct to handle git logs
 type ChangelogService struct {
 	versionTagService *VersionTagService
 }
 
+// NewChangelogService returns a new pointer instance of ChangelogService with the given arguments
 func NewChangelogService(versionTagService *VersionTagService) *ChangelogService {
 	return &ChangelogService{versionTagService: versionTagService}
 }
 
-// Returns a list of git log since the latest given version tag.
+// ChangelogFromVersionTag returns a list of git logs since the latest given version tag.
 // If latestVersionTag parameter is empty all current commits are used.
 func (s ChangelogService) ChangelogFromVersionTag(latestVersionTag string) ([]string, error) {
 	var logOutput []string

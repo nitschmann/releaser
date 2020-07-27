@@ -12,8 +12,8 @@ func newLatestVersionCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:     "latest-version",
 		Aliases: []string{"latest", "latest-tag"},
-		Short:   "Prints the latest availabe version tag",
-		Long:    "Prints the latest availabe version tag. Is empty if no tag is available yet.",
+		Short:   "Prints the latest available version tag",
+		Long:    "Prints the latest available version tag. Is empty if no tag is available yet.",
 		Run: func(cmd *cobra.Command, args []string) {
 			versionTagService := gitServ.NewVersionTagService(config.Get().FirstVersion)
 			latestVersion, err := versionTagService.LatestVersionTag(config.Get().LatestVersion)

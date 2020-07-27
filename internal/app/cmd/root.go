@@ -10,10 +10,10 @@ import (
 	"github.com/spf13/viper"
 )
 
-// Global CLI app version
+// AppVersion is the global CLI application version
 var AppVersion string
 
-// App-wide CLI entrypoint
+// Execute is the app-wide CLI entrypoint
 func Execute() {
 	rootCmd := NewRootCmd()
 	err := rootCmd.Execute()
@@ -32,7 +32,7 @@ func initAppConfig() {
 	config.Init()
 }
 
-// Global and public facing root command
+// NewRootCmd returns the application and global facing root cobra command
 func NewRootCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "release-log",
@@ -40,7 +40,6 @@ func NewRootCmd() *cobra.Command {
 		Long:  "CLI tool for Git release changelogs, logs and version tags",
 		PersistentPreRun: func(cmd *cobra.Command, args []string) {
 			config.SetDefaultValues()
-
 			err := config.Load()
 			if err != nil {
 				printCliErrorAndExit(err)
@@ -73,7 +72,7 @@ func printCliErrorAndExit(msg interface{}) {
 }
 
 func setRootCmdFlags(rootCmd *cobra.Command) {
-	rootCmd.PersistentFlags().String("first-version", "v0.0.1", "The first release version which should be initally used")
+	rootCmd.PersistentFlags().String("first-version", "v0.0.1", "The first release version which should be initially used")
 	rootCmd.PersistentFlags().StringP("git-executable", "g", "git", "The system-wide used Git executable")
 	rootCmd.PersistentFlags().StringP("git-remote", "r", "origin", "Git remote which should be used for comparison")
 	rootCmd.PersistentFlags().StringP("git-repo-url", "u", "", "Git repository URL which could be overwritten. (If no URL is given the one of the git-remote is used)")

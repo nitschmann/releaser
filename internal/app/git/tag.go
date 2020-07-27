@@ -6,7 +6,7 @@ import (
 	"github.com/nitschmann/release-log/pkg/util"
 )
 
-// List all Git tags in reverse order by vX.X
+// TagList returns all Git tags in reverse order by vX.X
 func TagList() ([]string, error) {
 	var tagList []string
 	commandOutput, err := ExecCommand([]string{"tag", "-l", "--sort=v:refname"})

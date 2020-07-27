@@ -8,9 +8,22 @@ NEW_VERSION_BUILD=$(LOCAL_BUILD) new-version
 NEW_VERSION_BUILD_DARWIN=$(NEW_VERSION_BUILD) darwin
 NEW_VERSION_BUILD_LINUX=$(NEW_VERSION_BUILD) linux
 
+.PHONY: install-test-dependencies
+install-test-dependencies:
+	env GO111MODULE=on go get -u github.com/client9/misspell/cmd/misspell
+	env GO111MODULE=on go get -u golang.org/x/lint/golint
+
 .PHONY: test
 test:
 	$(GOTEST) -v ./...
+
+.PHONY: lint
+lint:
+	golint -set_exit_status ./...
+
+.PHONY: check-misspell
+check-misspell:
+	misspell ./**/* -error
 
 .PHONY: build-latest
 build-latest: build-latest-darwin build-latest-linux

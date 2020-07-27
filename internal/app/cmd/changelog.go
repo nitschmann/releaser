@@ -29,7 +29,7 @@ func newChangelogCmd() *cobra.Command {
 			}
 
 			if len(changelog) == 0 {
-				printCliErrorAndExit("No commited changes were found. Please ensure you are using the correct branch.")
+				printCliErrorAndExit("No committed changes were found. Please ensure you are using the correct branch.")
 			}
 
 			fmt.Println("## Changelog\n")

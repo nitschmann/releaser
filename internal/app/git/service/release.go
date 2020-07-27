@@ -13,11 +13,13 @@ import (
 type ReleaseService struct {
 	GitRemote  string
 	GitRepoURL string
+	GitService git.Git
 }
 
 // NewReleaseService returns a new pointer instance of ReleaseService with the given arguments
-func NewReleaseService(gitRemote string, gitRepoURL string) *ReleaseService {
+func NewReleaseService(gitService git.Git, gitRemote string, gitRepoURL string) *ReleaseService {
 	return &ReleaseService{
+		GitService: gitService,
 		GitRemote:  gitRemote,
 		GitRepoURL: gitRepoURL,
 	}
@@ -54,7 +56,7 @@ func (s ReleaseService) RepoHTTPURL() (string, error) {
 	if s.GitRepoURL != "" {
 		gitRemoteURL = s.GitRepoURL
 	} else {
-		gitRemoteURL, err = git.ExecCommand([]string{"remote", "get-url", s.GitRemote})
+		gitRemoteURL, err = s.GitService.ExecCommand([]string{"remote", "get-url", s.GitRemote})
 		if err != nil {
 			return "", err
 		}

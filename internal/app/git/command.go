@@ -7,7 +7,8 @@ import (
 	"github.com/nitschmann/release-log/internal/app/config"
 )
 
-// Executes a git command with the given args
+// ExecCommand executes a git command with the given args
+// TODO: Pass the git executable directly in and don't use config here
 func ExecCommand(args []string) (string, error) {
 	output, err := exec.Command(config.Get().GitExecutable, args...).Output()
 	if err != nil {

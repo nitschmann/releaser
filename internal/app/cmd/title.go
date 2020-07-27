@@ -21,7 +21,7 @@ func newTitleCmd() *cobra.Command {
 				printCliErrorAndExit(err)
 			}
 
-			releaseService := gitServ.NewReleaseService(config.Get().GitRemote, config.Get().GitRepoUrl)
+			releaseService := gitServ.NewReleaseService(config.Get().GitRemote, config.Get().GitRepoURL)
 			releaseTitle := releaseService.Title(newVersionTag)
 
 			fmt.Println(releaseTitle)

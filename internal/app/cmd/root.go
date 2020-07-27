@@ -10,10 +10,10 @@ import (
 	"github.com/spf13/viper"
 )
 
-// Global CLI app version
+// AppVersion is the global CLI application version
 var AppVersion string
 
-// App-wide CLI entrypoint
+// Execute is the app-wide CLI entrypoint
 func Execute() {
 	rootCmd := NewRootCmd()
 	err := rootCmd.Execute()
@@ -32,7 +32,7 @@ func initAppConfig() {
 	config.Init()
 }
 
-// Global and public facing root command
+// NewRootCmd returns the application and global facing root cobra command
 func NewRootCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "release-log",
@@ -40,7 +40,6 @@ func NewRootCmd() *cobra.Command {
 		Long:  "CLI tool for Git release changelogs, logs and version tags",
 		PersistentPreRun: func(cmd *cobra.Command, args []string) {
 			config.SetDefaultValues()
-
 			err := config.Load()
 			if err != nil {
 				printCliErrorAndExit(err)

@@ -7,29 +7,29 @@ import (
 	"github.com/spf13/viper"
 )
 
-// Application config data struct
+// Config is the application configuration data struct
 type Config struct {
 	FirstVersion  string `mapstructure:"first_version" validate="required"`
 	GitExecutable string `mapstructure:"git_executable" validate="required"`
 	GitRemote     string `mapstructure:"git_remote" validate="required"`
-	GitRepoUrl    string `mapstructure:"git_repo_url"`
-	NewVersion    string `mapstructure:"new_version"`
+	GitRepoURL    string `mapstructure:"git_repo_url"`
 	LatestVersion string `mapstructure:"latest_version"`
+	NewVersion    string `mapstructure:"new_version"`
 }
 
 var (
-	// Global config instance
+	// Cfg is the global instance of Config
 	Cfg *Config
 	// Private vars
 	validate *validator.Validate
 )
 
-// Returns the current global instance of Config
+// Get returns Cfg var
 func Get() *Config {
 	return Cfg
 }
 
-// Init function to setup config paths and ENV binding. Should just be called once.
+// Init function is to setup config paths and their ENV binding. Should just be called once.
 func Init() {
 	viper.SetConfigName("config")
 	viper.AddConfigPath("/etc/release-log")
@@ -42,12 +42,12 @@ func Init() {
 	if err := viper.ReadInConfig(); err != nil {
 		if _, ok := err.(viper.ConfigFileNotFoundError); ok {
 		} else {
-			panic(fmt.Errorf("Error while loading config: %v \n", err))
+			panic(fmt.Errorf("error while loading config: %v", err))
 		}
 	}
 }
 
-// Loads the config with Viper into a Struct and validates it
+// Load uses viper, loads it and sets the output in Cfg
 func Load() error {
 	Cfg = &Config{}
 	err := viper.Unmarshal(Cfg)
@@ -64,7 +64,7 @@ func Load() error {
 	return nil
 }
 
-// This sets the default config values. Should just be called once.
+// SetDefaultValues sets the default values for the config keys managed with viper.
 func SetDefaultValues() {
 	viper.SetDefault("first_version", "v0.0.1")
 	viper.SetDefault("git_executable", "git")

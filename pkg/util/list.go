@@ -1,6 +1,6 @@
 package util
 
-// Clean a list of strings
+// CleanList cleans a list of strings and returns it again
 func CleanList(tagList []string) []string {
 	var r []string
 	for _, str := range tagList {

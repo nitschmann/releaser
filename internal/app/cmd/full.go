@@ -37,9 +37,9 @@ func newFullCmd() *cobra.Command {
 				printCliErrorAndExit("No commited changes were found. Please ensure you are using the correct branch.")
 			}
 
-			releaseService := gitServ.NewReleaseService(config.Get().GitRemote, config.Get().GitRepoUrl)
+			releaseService := gitServ.NewReleaseService(config.Get().GitRemote, config.Get().GitRepoURL)
 			releaseTitle := releaseService.Title(newVersionTag)
-			releaseCompareUrl, err := releaseService.RepoVersionTagCompareURL(latestVersionTag, newVersionTag)
+			releaseCompareURL, err := releaseService.RepoVersionTagCompareURL(latestVersionTag, newVersionTag)
 			if err != nil {
 				printCliErrorAndExit(err)
 			}
@@ -47,9 +47,9 @@ func newFullCmd() *cobra.Command {
 			fmt.Println(releaseTitle + "\n")
 			fmt.Printf("New version: %s\n", newVersionTag)
 
-			if latestVersionTag != "" && releaseCompareUrl != "" {
+			if latestVersionTag != "" && releaseCompareURL != "" {
 				fmt.Printf("Latest version: %s\n", latestVersionTag)
-				fmt.Printf("Compare URL: %s\n", releaseCompareUrl)
+				fmt.Printf("Compare URL: %s\n", releaseCompareURL)
 			}
 
 			fmt.Println("\n## Changelog\n")

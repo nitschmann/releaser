@@ -7,17 +7,18 @@ import (
 	"github.com/nitschmann/release-log/internal/app/git"
 )
 
-// Service to handle git (version) tags
+// VersionTagService is a service struct to handle version tags
 type VersionTagService struct {
 	defaultFirstVersion string
 }
 
+// NewVersionTagService returns a new pointer instance of VersionTagService with the given arguments
 func NewVersionTagService(defaultFirstVersion string) *VersionTagService {
 	return &VersionTagService{defaultFirstVersion: defaultFirstVersion}
 }
 
-// Builds a new version git tag (returns the defined first version if no git tag is given yet).
-// If newVersion par present this one is used
+// CreateNew builds a new version git tag or returns the config defined first version if no git tag is given yet.
+// If newVersion parameter is present this one is used instead.
 func (s VersionTagService) CreateNew(newVersion string) (string, error) {
 	if newVersion == "" {
 		versions, err := git.TagList()
@@ -37,15 +38,16 @@ func (s VersionTagService) CreateNew(newVersion string) (string, error) {
 			previousVersionParts[len(previousVersionParts)-1] = strconv.Itoa(newVersionNum)
 
 			return "v" + strings.Join(previousVersionParts, "."), nil
-		} else {
-			return s.defaultFirstVersion, nil
 		}
-	} else {
-		return newVersion, nil
+
+		return s.defaultFirstVersion, nil
 	}
+
+	return newVersion, nil
 }
 
-// Gets the latest version tag from the list or just return the given latestVersionTag parameter
+// LatestVersionTag gets and returns the latest version tag from the list through git or
+// just returns the latestVersionTag parameter (if given)
 func (s VersionTagService) LatestVersionTag(latestVersionTag string) (string, error) {
 	if latestVersionTag == "" {
 		versions, err := git.TagList()
@@ -55,10 +57,10 @@ func (s VersionTagService) LatestVersionTag(latestVersionTag string) (string, er
 
 		if len(versions) >= 1 {
 			return versions[len(versions)-1], nil
-		} else {
-			return "", nil
 		}
-	} else {
-		return latestVersionTag, nil
+
+		return "", nil
 	}
+
+	return latestVersionTag, nil
 }

@@ -34,7 +34,7 @@ func newFullCmd() *cobra.Command {
 			}
 
 			if len(changelog) == 0 {
-				printCliErrorAndExit("No commited changes were found. Please ensure you are using the correct branch.")
+				printCliErrorAndExit("No committed changes were found. Please ensure you are using the correct branch.")
 			}
 
 			releaseService := gitServ.NewReleaseService(config.Get().GitRemote, config.Get().GitRepoURL)

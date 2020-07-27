@@ -1,4 +1,3 @@
-LOCAL_GOPATH=${GOPATH}
 GOCMD=go
 GOTEST=$(GOCMD) test
 LOCAL_BUILD=./scripts/build-go.sh
@@ -20,7 +19,7 @@ test:
 
 .PHONY: lint
 lint:
-	$(LOCAL_GOPATH)/bin/golint -set_exit_status ./...
+	golint -set_exit_status ./...
 
 .PHONY: check-misspell
 check-misspell:

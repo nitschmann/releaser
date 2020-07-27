@@ -58,7 +58,7 @@ env CGO_ENABLED=0 \
   -v -ldflags="-X 'main.Version=$version'" $package_path
 
 if [ $? -ne 0 ]; then
-  echo "An error occured. Could not finish build process."
+  echo "An error occurred. Could not finish build process."
   exit 1
 else
   printf "=== Finished: $output_path \n"

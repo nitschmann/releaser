@@ -1,3 +1,4 @@
+LOCAL_GOPATH=${GOPATH}
 GOCMD=go
 GOTEST=$(GOCMD) test
 LOCAL_BUILD=./scripts/build-go.sh
@@ -11,6 +12,10 @@ NEW_VERSION_BUILD_LINUX=$(NEW_VERSION_BUILD) linux
 .PHONY: test
 test:
 	$(GOTEST) -v ./...
+
+.PHONY: lint
+lint:
+	$(LOCAL_GOPATH)/bin/golint -set_exit_status ./...
 
 .PHONY: build-latest
 build-latest: build-latest-darwin build-latest-linux

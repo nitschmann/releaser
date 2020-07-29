@@ -1,3 +1,7 @@
+**ATTENTION**
+
+PROJECT IS UNDER ACTIVE DEVELOPMENT AND NOT IN A STABLE STATE YET. THERE CAN BE ANYTIME BREAKING CHANGES!
+
 # release-log
 
 This is a small and simple CLI tool to handle Git release (change)logs and version tags. It uses native `git` commands wrapped within a Golang application. Various binaries for Mac and Linux are shipped as well.

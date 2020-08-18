@@ -5,23 +5,29 @@ import (
 	"strings"
 
 	"github.com/nitschmann/release-log/internal/app/git"
+	"github.com/nitschmann/release-log/internal/app/git/tag"
 )
 
 // VersionTagService is a service struct to handle version tags
 type VersionTagService struct {
 	defaultFirstVersion string
+	GitService          git.Git
 }
 
 // NewVersionTagService returns a new pointer instance of VersionTagService with the given arguments
-func NewVersionTagService(defaultFirstVersion string) *VersionTagService {
-	return &VersionTagService{defaultFirstVersion: defaultFirstVersion}
+func NewVersionTagService(g git.Git, defaultFirstVersion string) *VersionTagService {
+	return &VersionTagService{
+		defaultFirstVersion: defaultFirstVersion,
+		GitService:          g,
+	}
 }
 
 // CreateNew builds a new version git tag or returns the config defined first version if no git tag is given yet.
 // If newVersion parameter is present this one is used instead.
 func (s VersionTagService) CreateNew(newVersion string) (string, error) {
 	if newVersion == "" {
-		versions, err := git.TagList()
+		gitTag := tag.New(s.GitService)
+		versions, err := gitTag.SortedList("v:refname")
 		if err != nil {
 			return "", err
 		}
@@ -50,7 +56,8 @@ func (s VersionTagService) CreateNew(newVersion string) (string, error) {
 // just returns the latestVersionTag parameter (if given)
 func (s VersionTagService) LatestVersionTag(latestVersionTag string) (string, error) {
 	if latestVersionTag == "" {
-		versions, err := git.TagList()
+		gitTag := tag.New(s.GitService)
+		versions, err := gitTag.SortedList("v:refname")
 		if err != nil {
 			return "", err
 		}

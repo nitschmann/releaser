@@ -15,7 +15,7 @@ func newFullCmd() *cobra.Command {
 		Short:   "Prints full release log including new version tag, changelog and compare URL",
 		Long:    "Prints full release log including new version tag, changelog and compare URL",
 		Run: func(cmd *cobra.Command, args []string) {
-			versionTagService := gitServ.NewVersionTagService(config.Get().FirstVersion)
+			versionTagService := gitServ.NewVersionTagService(GitService, config.Get().FirstVersion)
 
 			latestVersionTag, err := versionTagService.LatestVersionTag(config.Get().LatestVersion)
 			if err != nil {
@@ -27,7 +27,7 @@ func newFullCmd() *cobra.Command {
 				printCliErrorAndExit(err)
 			}
 
-			changelogService := gitServ.NewChangelogService(versionTagService)
+			changelogService := gitServ.NewChangelogService(GitService, versionTagService)
 			changelog, err := changelogService.ChangelogFromVersionTag(latestVersionTag)
 			if err != nil {
 				printCliErrorAndExit(err)
@@ -37,7 +37,7 @@ func newFullCmd() *cobra.Command {
 				printCliErrorAndExit("No committed changes were found. Please ensure you are using the correct branch.")
 			}
 
-			releaseService := gitServ.NewReleaseService(config.Get().GitRemote, config.Get().GitRepoURL)
+			releaseService := gitServ.NewReleaseService(GitService, config.Get().GitRemote, config.Get().GitRepoURL)
 			releaseTitle := releaseService.Title(newVersionTag)
 			releaseCompareURL, err := releaseService.RepoVersionTagCompareURL(latestVersionTag, newVersionTag)
 			if err != nil {
@@ -52,7 +52,8 @@ func newFullCmd() *cobra.Command {
 				fmt.Printf("Compare URL: %s\n", releaseCompareURL)
 			}
 
-			fmt.Println("\n## Changelog\n")
+			fmt.Println("\n## Changelog")
+			fmt.Println("")
 			for i := 0; i < len(changelog); i++ {
 				fmt.Printf("* %s\n", changelog[i])
 			}

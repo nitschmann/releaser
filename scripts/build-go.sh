@@ -22,7 +22,7 @@ given_arch=$3
 version=$4
 
 if ! contains_element ${command} "${supported_command[@]}"; then
-  eco "Command is not supported!"
+  echo "Command is not supported!"
   exit 1
 fi
 

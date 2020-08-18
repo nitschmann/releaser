@@ -15,13 +15,13 @@ func newTitleCmd() *cobra.Command {
 		Short:   "Prints the title of the new release",
 		Long:    "Prints the title of the new release",
 		Run: func(cmd *cobra.Command, args []string) {
-			versionTagService := gitServ.NewVersionTagService(config.Get().FirstVersion)
+			versionTagService := gitServ.NewVersionTagService(GitService, config.Get().FirstVersion)
 			newVersionTag, err := versionTagService.CreateNew(config.Get().NewVersion)
 			if err != nil {
 				printCliErrorAndExit(err)
 			}
 
-			releaseService := gitServ.NewReleaseService(config.Get().GitRemote, config.Get().GitRepoURL)
+			releaseService := gitServ.NewReleaseService(GitService, config.Get().GitRemote, config.Get().GitRepoURL)
 			releaseTitle := releaseService.Title(newVersionTag)
 
 			fmt.Println(releaseTitle)

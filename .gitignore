@@ -17,5 +17,3 @@
 
 .build/*
 !.build/.keep
-
-config.*

@@ -1,0 +1,12 @@
+rules:
+    - paths:
+        - "{{ .ConfigParentDir }}"
+      flags:
+          - name: "issue"
+            description: "number of the issue"
+            required: true
+            default: "new-issue"
+      git_branch_default_type: "feature"
+      git_branch_delimiter: "-"
+      git_branch_force_type: true
+      git_branch_prefix: "{{ .Type }}/{{ .issue }}"

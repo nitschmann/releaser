@@ -1,6 +1,6 @@
 package branch
 
-import "github.com/nitschmann/release-log/internal/app/git"
+import "github.com/nitschmann/releaser/internal/app/git"
 
 // Branch is the interface for the branch package
 type Branch interface {

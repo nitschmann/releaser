@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# This is the installation script for the release-log binary. It downloads it automatically from the
+# This is the installation script for the releaser binary. It downloads it automatically from the
 # latest release available within the repo.
 
 # --- Helper methods
@@ -14,7 +14,7 @@ contains_element () {
 # --- Support lists
 supported_os=( darwin linux )
 supported_architecture=( 386 amd64 arm arm64 )
-releases_base_url="https://github.com/nitschmann/release-log/releases"
+releases_base_url="https://github.com/nitschmann/releaser/releases"
 latest_release_url="$releases_base_url/latest"
 
 case $(uname -s) in
@@ -43,8 +43,8 @@ fi
 
 latest_release_tag_url=$(curl -Ls -w %{url_effective} -o /dev/null $latest_release_url)
 latest_release_tag=${latest_release_tag_url##*/}
-binary_name="release-log-$machine_os-$architecture"
+binary_name="releaser-$machine_os-$architecture"
 binary_download_url="$releases_base_url/download/$latest_release_tag/$binary_name"
 
-curl -o /usr/local/bin/release-log -L $binary_download_url
-chmod +x /usr/local/bin/release-log
+curl -o /usr/local/bin/releaser -L $binary_download_url
+chmod +x /usr/local/bin/releaser

@@ -3,8 +3,8 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/nitschmann/release-log/internal/app/config"
-	gitServ "github.com/nitschmann/release-log/internal/app/git/service"
+	"github.com/nitschmann/releaser/internal/app/config"
+	gitServ "github.com/nitschmann/releaser/internal/app/git/service"
 	"github.com/spf13/cobra"
 )
 

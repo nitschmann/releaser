@@ -5,9 +5,9 @@ import (
 	"os"
 
 	"github.com/joho/godotenv"
-	cmdServ "github.com/nitschmann/release-log/internal/app/cmd/service"
-	"github.com/nitschmann/release-log/internal/app/config"
-	"github.com/nitschmann/release-log/internal/app/git"
+	cmdServ "github.com/nitschmann/releaser/internal/app/cmd/service"
+	"github.com/nitschmann/releaser/internal/app/config"
+	"github.com/nitschmann/releaser/internal/app/git"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -19,7 +19,8 @@ var (
 	GitService git.Git
 	// Private vars
 	cmdConfigRuleService *cmdServ.ConfigRule
-	rootCmd              *cobra.Command
+	currentConfigRule    config.Rule
+	rootCmd              *RootCmd
 
 	_ = func() error {
 		currentCmdDir, err := os.Getwd()
@@ -32,22 +33,60 @@ var (
 		rootCmd = NewRootCmd()
 		cmdConfigRuleService = cmdServ.NewConfigRule(currentCmdDir)
 
-		config.SetDefaultValues()
-		err = config.Load(false)
+		err = loadAndValidateConfig()
 		if err != nil {
 			printCliErrorAndExit(err)
 		}
+
+		rootCmd.LoadSubCommands()
 
 		return nil
 	}()
 )
 
+// RootCmd is a global cmd package abstraction struct
+type RootCmd struct {
+	Cmd *cobra.Command
+}
+
 // Execute is the app-wide CLI entrypoint
 func Execute() {
-	err := rootCmd.Execute()
+	err := rootCmd.Cmd.Execute()
 	if err != nil {
 		printCliErrorAndExit(err)
 	}
+}
+
+// LoadSubCommands loads the sub-commands of RootCmd.Cmd
+func (r *RootCmd) LoadSubCommands() {
+	cmd := r.Cmd
+	cmd.AddCommand(newBranchCmd())
+	cmd.AddCommand(newChangelogCmd())
+	cmd.AddCommand(newFullCmd())
+	cmd.AddCommand(newLatestVersionCmd())
+	cmd.AddCommand(newNewVersionCmd())
+	cmd.AddCommand(newTitleCmd())
+	cmd.AddCommand(newVersionCmd())
+}
+
+func loadAndValidateConfig() error {
+	config.SetDefaultValues()
+	err := config.Load(false)
+	if err != nil {
+		return err
+	}
+
+	err = config.Get().ValidateRules()
+	if err != nil {
+		return err
+	}
+
+	currentConfigRule, err = cmdConfigRuleService.CurrentRule()
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func initAppConfig() {
@@ -56,11 +95,14 @@ func initAppConfig() {
 }
 
 // NewRootCmd returns the application and global facing root cobra command
-func NewRootCmd() *cobra.Command {
+func NewRootCmd() *RootCmd {
 	cmd := &cobra.Command{
-		Use:   "release-log",
-		Short: "CLI tool for Git release version tags and logs",
-		Long:  "CLI tool for Git release changelogs, logs and version tags",
+		Use:   "releaser",
+		Short: "CLI tool for smart and rule based Git branch, commit and release log naming",
+		Long: `
+A CLI tool that allows you to manage branch and commit naming structures based on certain
+configurations under paths. It helps to create and publish useful and well-managed releases with
+their corresponding logs.`,
 		PersistentPreRun: func(cmd *cobra.Command, args []string) {
 			err := config.Load(true)
 			if err != nil {
@@ -91,15 +133,7 @@ func NewRootCmd() *cobra.Command {
 	viper.BindPFlag("new_version", cmd.PersistentFlags().Lookup("new-version"))
 	viper.BindPFlag("latest_version", cmd.PersistentFlags().Lookup("latest-version"))
 
-	// Default static commands
-	cmd.AddCommand(newChangelogCmd())
-	cmd.AddCommand(newFullCmd())
-	cmd.AddCommand(newLatestVersionCmd())
-	cmd.AddCommand(newNewVersionCmd())
-	cmd.AddCommand(newTitleCmd())
-	cmd.AddCommand(newVersionCmd())
-
-	return cmd
+	return &RootCmd{Cmd: cmd}
 }
 
 func printCliErrorAndExit(msg interface{}) {

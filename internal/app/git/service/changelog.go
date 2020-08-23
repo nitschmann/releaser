@@ -3,8 +3,8 @@ package service
 import (
 	"strings"
 
-	"github.com/nitschmann/release-log/internal/app/git"
-	"github.com/nitschmann/release-log/pkg/util/list"
+	"github.com/nitschmann/releaser/internal/app/git"
+	"github.com/nitschmann/releaser/pkg/util/list"
 )
 
 // ChangelogService is a service struct to handle git logs

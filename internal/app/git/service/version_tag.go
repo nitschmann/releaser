@@ -4,8 +4,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/nitschmann/release-log/internal/app/git"
-	"github.com/nitschmann/release-log/internal/app/git/tag"
+	"github.com/nitschmann/releaser/internal/app/git"
+	"github.com/nitschmann/releaser/internal/app/git/tag"
 )
 
 // VersionTagService is a service struct to handle version tags

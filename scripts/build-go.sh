@@ -43,12 +43,12 @@ if [ "$command" == "latest" ] && [ -z "$version" ]; then
 fi
 
 if [ "$command" == "new-version" ] && [ -z "$version" ]; then
-  version=$(go run cmd/releaselog/main.go new-version)
+  version=$(go run cmd/releaser/main.go new-version)
 fi
 
-executable_name="release-log-$given_os-$given_arch"
+executable_name="releaser-$given_os-$given_arch"
 output_path="./.build/$executable_name"
-package_path="./cmd/releaselog/main.go"
+package_path="./cmd/releaser/main.go"
 
 env CGO_ENABLED=0 \
   GOOS=$given_os \

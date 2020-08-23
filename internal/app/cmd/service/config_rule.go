@@ -1,6 +1,6 @@
 package service
 
-import "github.com/nitschmann/release-log/internal/app/config"
+import "github.com/nitschmann/releaser/internal/app/config"
 
 // ConfigRule is a service struct to handle config.Rule for cmd applications
 type ConfigRule struct {

@@ -1,6 +1,6 @@
 package tag
 
-import "github.com/nitschmann/release-log/internal/app/git"
+import "github.com/nitschmann/releaser/internal/app/git"
 
 // Tag is the interface for the tag package
 type Tag interface {

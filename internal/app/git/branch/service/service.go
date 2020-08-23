@@ -5,9 +5,9 @@ import (
 	"strings"
 
 	"github.com/go-playground/validator/v10"
-	"github.com/nitschmann/release-log/internal/app/config"
-	"github.com/nitschmann/release-log/internal/app/git"
-	"github.com/nitschmann/release-log/internal/app/git/branch"
+	"github.com/nitschmann/releaser/internal/app/config"
+	"github.com/nitschmann/releaser/internal/app/git"
+	"github.com/nitschmann/releaser/internal/app/git/branch"
 )
 
 // Service a the branch service struct

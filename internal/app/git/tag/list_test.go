@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/nitschmann/release-log/internal/app/git"
+	"github.com/nitschmann/releaser/internal/app/git"
 	"github.com/stretchr/testify/assert"
 )
 

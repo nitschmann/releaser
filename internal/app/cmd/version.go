@@ -10,8 +10,8 @@ func newVersionCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:     "version",
 		Aliases: []string{"v"},
-		Short:   "Version of release-log",
-		Long:    "The version of release-log itself",
+		Short:   "Version of releaser",
+		Long:    "The version of releaser itself",
 		Run: func(cmd *cobra.Command, args []string) {
 			fmt.Println(AppVersion)
 		},

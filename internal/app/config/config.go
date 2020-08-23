@@ -34,14 +34,13 @@ func Get() *Config {
 // Init function is to setup config paths and their ENV binding. Should just be called once.
 func Init() {
 	viper.SetConfigName("config")
+	viper.SetEnvPrefix("RELEASER")
+	viper.AutomaticEnv()
 	viper.SetConfigType("yaml")
 
-	viper.AddConfigPath("./.release-log")
-	viper.AddConfigPath("$HOME/.release-log")
-	viper.AddConfigPath("/etc/release-log")
-
-	viper.SetEnvPrefix("RELEASE_LOG")
-	viper.AutomaticEnv()
+	viper.AddConfigPath("./.releaser")
+	viper.AddConfigPath("$HOME/.releaser")
+	viper.AddConfigPath("/etc/releaser")
 
 	if err := viper.ReadInConfig(); err != nil {
 		if _, ok := err.(viper.ConfigFileNotFoundError); ok {

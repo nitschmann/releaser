@@ -93,7 +93,7 @@ build-new-version-linux-arm64:
 
 .PHONY: clean-build
 clean-build:
-	rm -rf .build/release-log*
+	rm -rf .build/releaser*
 
 .PHONY: generate-docs
 generate-docs:

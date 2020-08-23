@@ -2,7 +2,7 @@ package service
 
 import (
 	"github.com/go-playground/validator/v10"
-	"github.com/nitschmann/release-log/internal/app/config"
+	"github.com/nitschmann/releaser/internal/app/config"
 	"github.com/spf13/cobra"
 )
 

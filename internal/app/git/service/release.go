@@ -5,7 +5,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/nitschmann/release-log/internal/app/git"
+	"github.com/nitschmann/releaser/internal/app/git"
 	giturls "github.com/whilp/git-urls"
 )
 

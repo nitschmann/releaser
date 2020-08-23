@@ -6,7 +6,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/nitschmann/release-log/pkg/util/list"
+	"github.com/nitschmann/releaser/pkg/util/list"
 )
 
 // Name struct is for branch names

@@ -1,4 +1,4 @@
-name: Go build and create release
+name: New release with binaries
 
 on:
   push:

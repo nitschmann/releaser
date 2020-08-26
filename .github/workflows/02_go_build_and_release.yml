@@ -1,8 +1,6 @@
 name: New release with binaries
 
-on:
-  push:
-    branches: [ master ]
+on: push
 
 jobs:
   build:
@@ -29,11 +27,9 @@ jobs:
     - name: Create info for the new release
       id: release_info
       run: |
-        sudo /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/nitschmann/releaser/master/scripts/install.sh)"
-
-        changelog=$(releaser changelog)
-        new_version=$(releaser new-version)
-        title=$(releaser title)
+        changelog=$(./.build/releaser-linux-amd64 changelog)
+        new_version=$(./.build/releaser-linux-amd64 new-version)
+        title=$(./.build/releaser-linux-amd64 title)
 
         changelog="${changelog//'%'/'%25'}"
         changelog="${changelog//$'\n'/'%0A'}"

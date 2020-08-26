@@ -1,6 +1,8 @@
 name: New release with binaries
 
-on: push
+on:
+  push:
+    branches: [ master ]
 
 jobs:
   build:

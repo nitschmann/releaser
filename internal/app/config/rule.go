@@ -171,6 +171,8 @@ func (r Rule) pathRuleVariables() (map[string]string, error) {
 		return rules, err
 	}
 
+	// projectDir :=
+
 	rules["ConfigParentDir"] = filepath.Dir(filepath.Dir(viper.ConfigFileUsed()))
 	rules["UserHomeDir"] = userHomeDir
 

@@ -29,11 +29,9 @@ jobs:
     - name: Create info for the new release
       id: release_info
       run: |
-        sudo /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/nitschmann/releaser/master/scripts/install.sh)"
-
-        changelog=$(releaser changelog)
-        new_version=$(releaser new-version)
-        title=$(releaser title)
+        changelog=$(./.build/releaser-linux-amd64 changelog)
+        new_version=$(./.build/releaser-linux-amd64 new-version)
+        title=$(./.build/releaser-linux-amd64 title)
 
         changelog="${changelog//'%'/'%25'}"
         changelog="${changelog//$'\n'/'%0A'}"
@@ -53,16 +51,6 @@ jobs:
         release_name: ${{ steps.release_info.outputs.title }}
         body: |
           ${{ steps.release_info.outputs.changelog }}
-
-    - name: Upload release asset binary releaser-darwin-386
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./.build/releaser-darwin-386
-        asset_name: releaser-darwin-386
-        asset_content_type: application/binary
 
     - name: Upload release asset binary releaser-darwin-amd64
       uses: actions/upload-release-asset@v1

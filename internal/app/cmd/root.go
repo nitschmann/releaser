@@ -137,6 +137,6 @@ their corresponding logs.`,
 }
 
 func printCliErrorAndExit(msg interface{}) {
-	fmt.Println("An unexpected error occurred: ", msg)
+	fmt.Printf("An unexpected error occurred:\n%s", msg)
 	os.Exit(1)
 }

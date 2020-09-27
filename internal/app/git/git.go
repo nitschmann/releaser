@@ -22,9 +22,14 @@ func New(executable string) Git {
 
 // ExecCommand executes a git command with the given args
 func (g Obj) ExecCommand(args []string) (string, error) {
-	output, err := exec.Command(g.Executable, args...).Output()
+	cmd := exec.Command(g.Executable, args...)
+	output, err := cmd.CombinedOutput()
 	if err != nil {
-		return "", err
+		return "", CmdError{
+			Cmd:     cmd,
+			Err:     err,
+			Message: string(output),
+		}
 	}
 
 	return strings.TrimSuffix(string(output[:]), "\n"), nil

@@ -61,11 +61,11 @@ func Execute() {
 func (r *RootCmd) LoadSubCommands() {
 	cmd := r.Cmd
 	cmd.AddCommand(newBranchCmd())
-	cmd.AddCommand(newChangelogCmd())
-	cmd.AddCommand(newFullCmd())
-	cmd.AddCommand(newLatestVersionCmd())
-	cmd.AddCommand(newNewVersionCmd())
-	cmd.AddCommand(newTitleCmd())
+	// cmd.AddCommand(newChangelogCmd())
+	// cmd.AddCommand(newFullCmd())
+	// cmd.AddCommand(newLatestVersionCmd())
+	// cmd.AddCommand(newNewVersionCmd())
+	// cmd.AddCommand(newTitleCmd())
 	cmd.AddCommand(newVersionCmd())
 }
 
@@ -98,9 +98,9 @@ func initAppConfig() {
 func NewRootCmd() *RootCmd {
 	cmd := &cobra.Command{
 		Use:   "releaser",
-		Short: "CLI tool for smart and rule based Git branch, commit and release log naming",
+		Short: "CLI tool for smart and rule-based Git branch, commit and release log naming and management",
 		Long: `
-A CLI tool that allows you to manage branch and commit naming structures based on certain
+A CLI tool that allows you to manage Git branch and commit naming structures based on certain
 configurations under paths. It helps to create and publish useful and well-managed releases with
 their corresponding logs.`,
 		PersistentPreRun: func(cmd *cobra.Command, args []string) {
@@ -119,19 +119,19 @@ their corresponding logs.`,
 		},
 	}
 
-	cmd.PersistentFlags().String("first-version", "v0.0.1", "The first release version which should be initially used")
+	// cmd.PersistentFlags().String("first-version", "v0.0.1", "The first release version which should be initially used")
 	cmd.PersistentFlags().StringP("git-executable", "g", "git", "The system-wide used Git executable")
-	cmd.PersistentFlags().StringP("git-remote", "r", "origin", "Git remote which should be used for comparison")
-	cmd.PersistentFlags().StringP("git-repo-url", "u", "", "Git repository URL which could be overwritten. (If no URL is given the one of the git-remote is used)")
-	cmd.PersistentFlags().String("new-version", "", "New Git release version tag to be used (if not given it will be detected automatically using git)")
-	cmd.PersistentFlags().String("latest-version", "", "Latest Git release version tag to be used (if not given it will be detected automatically using git)")
+	// cmd.PersistentFlags().StringP("git-remote", "r", "origin", "Git remote which should be used for comparison")
+	// cmd.PersistentFlags().StringP("git-repo-url", "u", "", "Git repository URL which could be overwritten. (If no URL is given the one of the git-remote is used)")
+	// cmd.PersistentFlags().String("new-version", "", "New Git release version tag to be used (if not given it will be detected automatically using git)")
+	// cmd.PersistentFlags().String("latest-version", "", "Latest Git release version tag to be used (if not given it will be detected automatically using git)")
 
-	viper.BindPFlag("first_version", cmd.PersistentFlags().Lookup("first-version"))
+	// viper.BindPFlag("first_version", cmd.PersistentFlags().Lookup("first-version"))
 	viper.BindPFlag("git_executable", cmd.PersistentFlags().Lookup("git-executable"))
-	viper.BindPFlag("git_remote", cmd.PersistentFlags().Lookup("git-remote"))
-	viper.BindPFlag("git_repo_url", cmd.PersistentFlags().Lookup("git-repo-url"))
-	viper.BindPFlag("new_version", cmd.PersistentFlags().Lookup("new-version"))
-	viper.BindPFlag("latest_version", cmd.PersistentFlags().Lookup("latest-version"))
+	// viper.BindPFlag("git_remote", cmd.PersistentFlags().Lookup("git-remote"))
+	// viper.BindPFlag("git_repo_url", cmd.PersistentFlags().Lookup("git-repo-url"))
+	// viper.BindPFlag("new_version", cmd.PersistentFlags().Lookup("new-version"))
+	// viper.BindPFlag("latest_version", cmd.PersistentFlags().Lookup("latest-version"))
 
 	return &RootCmd{Cmd: cmd}
 }

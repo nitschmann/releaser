@@ -9,12 +9,13 @@ import (
 
 // Config is the application configuration data struct
 type Config struct {
-	FirstVersion  string `mapstructure:"first_version" validate="required"`
-	GitExecutable string `mapstructure:"git_executable" validate="required"`
-	GitRemote     string `mapstructure:"git_remote" validate="required"`
-	GitRepoURL    string `mapstructure:"git_repo_url"`
-	LatestVersion string `mapstructure:"latest_version"`
-	NewVersion    string `mapstructure:"new_version"`
+	FirstVersion  string   `mapstructure:"first_version" validate="required"`
+	GitExecutable string   `mapstructure:"git_executable" validate="required"`
+	GitRemote     string   `mapstructure:"git_remote" validate="required"`
+	GitRepoURL    string   `mapstructure:"git_repo_url"`
+	LatestVersion string   `mapstructure:"latest_version"`
+	NewVersion    string   `mapstructure:"new_version"`
+	Release       *Release `mapstructure:"release"`
 	// Rules defines rule sets for different paths
 	Rules []Rule `mapstructure:"rules" yaml:"rules"`
 }

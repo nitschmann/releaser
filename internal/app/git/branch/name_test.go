@@ -104,6 +104,26 @@ func TestName_Join(t *testing.T) {
 			},
 			want: "ticket-123_new_feature",
 		},
+		{
+			name: "title with empty char as first char",
+			n: Name{
+				Delimiter: "-",
+				Prefix:    "",
+				Suffix:    "",
+				Title:     " new-feature",
+			},
+			want: "new-feature",
+		},
+		{
+			name: "title with empty char as last char",
+			n: Name{
+				Delimiter: "-",
+				Prefix:    "",
+				Suffix:    "",
+				Title:     "new-feature ",
+			},
+			want: "new-feature",
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

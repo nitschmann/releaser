@@ -35,11 +35,31 @@ func (n *Name) formatTitleWithRegexAndDelimiter() {
 	n.Title = strings.ToLower(n.validTitleCharsRegex().ReplaceAllString(n.Title, n.Delimiter))
 }
 
+func (n *Name) formatStringFirstAndLastCharAlphanumeric(str string) string {
+	var out string
+
+	r := []rune(str)
+	if !n.validAlphanumericCharsRegex().MatchString(string(r[0])) {
+		r = append(r[:0], r[0+1:]...)
+	}
+
+	out = string(r)
+
+	r = []rune(out)
+	if !n.validAlphanumericCharsRegex().MatchString(string(r[len(out)-1])) {
+		r = append(r[:len(out)-1], r[(len(out)-1)+1:]...)
+	}
+
+	out = string(r)
+	return out
+}
+
 // Join joins n.Prefix, n.Title and n.Suffix together usign the given delimiter.
 // Empty strings are ignored.
 func (n Name) Join() string {
 	parts := list.CleanEmptyStrings([]string{n.Prefix, n.Title, n.Suffix})
-	return strings.Join(parts, n.Delimiter)
+	name := n.formatStringFirstAndLastCharAlphanumeric(strings.Join(parts, n.Delimiter))
+	return name
 }
 
 func (n Name) parseTemplateString(templatePattern string, templateValues map[string]string) (string, error) {
@@ -106,5 +126,10 @@ func (n Name) ValidCharsRegex() *regexp.Regexp {
 
 func (n Name) validTitleCharsRegex() *regexp.Regexp {
 	reg, _ := regexp.Compile("[^a-zA-Z0-9-_+]+")
+	return reg
+}
+
+func (n *Name) validAlphanumericCharsRegex() *regexp.Regexp {
+	reg, _ := regexp.Compile("[a-zA-Z0-9]")
 	return reg
 }

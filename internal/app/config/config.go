@@ -9,14 +9,15 @@ import (
 
 // Config is the application configuration data struct
 type Config struct {
-	FirstVersion  string   `mapstructure:"first_version" validate="required"`
-	GitExecutable string   `mapstructure:"git_executable" validate="required"`
+	FirstVersion string `mapstructure:"first_version" validate="required"`
+	Git          Git
+	// GitExecutable string   `mapstructure:"git_executable" validate="required"`
 	GitRemote     string   `mapstructure:"git_remote" validate="required"`
 	GitRepoURL    string   `mapstructure:"git_repo_url"`
 	LatestVersion string   `mapstructure:"latest_version"`
 	NewVersion    string   `mapstructure:"new_version"`
 	Release       *Release `mapstructure:"release"`
-	// Rules defines rule sets for different paths
+	// Rules define config rule sets for different paths
 	Rules []Rule `mapstructure:"rules" yaml:"rules"`
 }
 
@@ -32,7 +33,8 @@ func Get() *Config {
 	return Cfg
 }
 
-// Init function is to setup config paths and their ENV binding. Should just be called once.
+// Init function is to setup config paths and their ENV binding. Should just be called once during
+// the runtime.
 func Init() {
 	viper.SetConfigName("config")
 	viper.SetEnvPrefix("RELEASER")
@@ -97,6 +99,7 @@ func SetDefaultValues() {
 	viper.SetDefault("git_repo_url", "")
 	viper.SetDefault("new_version", "")
 	viper.SetDefault("previous_version", "")
+	viper.SetDefault("git.executable", "git")
 }
 
 // ValidateRules runs Validate function on each entry in Rules list of Config instance

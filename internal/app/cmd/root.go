@@ -61,17 +61,21 @@ func Execute() {
 func (r *RootCmd) LoadSubCommands() {
 	cmd := r.Cmd
 	cmd.AddCommand(newBranchCmd())
+	cmd.AddCommand(newVersionCmd())
+
+	releaseCmd := newReleaseCmd()
+	releaseCmd.loadSubCommands()
+	cmd.AddCommand(releaseCmd.cmd)
 	// cmd.AddCommand(newChangelogCmd())
 	// cmd.AddCommand(newFullCmd())
 	// cmd.AddCommand(newLatestVersionCmd())
 	// cmd.AddCommand(newNewVersionCmd())
 	// cmd.AddCommand(newTitleCmd())
-	cmd.AddCommand(newVersionCmd())
 }
 
 func loadAndValidateConfig() error {
 	config.SetDefaultValues()
-	err := config.Load(false)
+	err := config.Load(true)
 	if err != nil {
 		return err
 	}
@@ -109,7 +113,7 @@ their corresponding logs.`,
 				printCliErrorAndExit(err)
 			}
 
-			GitService = git.New(config.Get().GitExecutable)
+			GitService = git.New(config.Get().Git.Executable)
 		},
 		Run: func(cmd *cobra.Command, args []string) {
 			if len(args) == 0 {
@@ -127,7 +131,7 @@ their corresponding logs.`,
 	// cmd.PersistentFlags().String("latest-version", "", "Latest Git release version tag to be used (if not given it will be detected automatically using git)")
 
 	// viper.BindPFlag("first_version", cmd.PersistentFlags().Lookup("first-version"))
-	viper.BindPFlag("git_executable", cmd.PersistentFlags().Lookup("git-executable"))
+	viper.BindPFlag("git.executable", cmd.PersistentFlags().Lookup("git-executable"))
 	// viper.BindPFlag("git_remote", cmd.PersistentFlags().Lookup("git-remote"))
 	// viper.BindPFlag("git_repo_url", cmd.PersistentFlags().Lookup("git-repo-url"))
 	// viper.BindPFlag("new_version", cmd.PersistentFlags().Lookup("new-version"))

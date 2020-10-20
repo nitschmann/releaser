@@ -104,8 +104,8 @@ func NewRootCmd() *RootCmd {
 		Use:   "releaser",
 		Short: "CLI tool for smart and rule-based Git branch, commit and release log naming and management",
 		Long: `
-A CLI tool that allows you to manage Git branch and commit naming structures based on certain
-configurations under paths. It helps to create and publish useful and well-managed releases with
+releaser is a CLI tool that allows you to manage Git branch and commit naming structures based on certain
+configuration options under paths. It helps to create and publish useful and well-managed releases with
 their corresponding logs.`,
 		PersistentPreRun: func(cmd *cobra.Command, args []string) {
 			err := config.Load(true)

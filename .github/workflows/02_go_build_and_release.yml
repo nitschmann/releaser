@@ -9,10 +9,10 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-    - name: Set up Go 1.14
+    - name: Set up Go 1.16
       uses: actions/setup-go@v2
       with:
-        go-version: ^1.14
+        go-version: ^1.16
       id: go
 
     - name: Check out code into the Go module directory
@@ -60,6 +60,16 @@ jobs:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: ./.build/releaser-darwin-amd64
         asset_name: releaser-darwin-amd64
+        asset_content_type: application/binary
+
+    - name: Upload release asset binary releaser-darwin-arm64
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./.build/releaser-darwin-arm64
+        asset_name: releaser-darwin-arm64
         asset_content_type: application/binary
 
     - name: Upload release asset binary releaser-linux-386

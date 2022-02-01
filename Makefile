@@ -29,11 +29,14 @@ check-misspell:
 build-latest: build-latest-darwin build-latest-linux
 
 .PHONY: build-latest-darwin
-build-latest-darwin: build-latest-darwin-amd64
+build-latest-darwin: build-latest-darwin-amd64 build-latest-darwin-arm64
 
 .PHONY: build-latest-darwin-amd64
 build-latest-darwin-amd64:
 	$(LATEST_DARWIN_BUILD) amd64
+
+.PHONY: build-latest-darwin-arm64
+	$(LATEST_DARWIN_BUILD) arm64
 
 .PHONY: build-latest-linux
 build-latest-linux: build-latest-linux-386 build-latest-linux-amd64 build-latest-linux-arm build-latest-linux-arm64
@@ -58,11 +61,15 @@ build-latest-linux-arm64:
 build-new-version: build-new-version-darwin build-new-version-linux
 
 .PHONY: build-new-version-darwin
-build-new-version-darwin: build-new-version-darwin-amd64
+build-new-version-darwin: build-new-version-darwin-amd64 build-new-version-darwin-arm64
 
 .PHONY: build-new-version-darwin-amd64
 build-new-version-darwin-amd64:
 	$(NEW_VERSION_BUILD_DARWIN) amd64
+
+.PHONY: build-new-version-darwin-arm64
+build-new-version-darwin-arm64:
+	$(NEW_VERSION_BUILD_DARWIN) arm64
 
 .PHONY: build-new-version-linux
 build-new-version-linux: build-new-version-linux-386 build-new-version-linux-amd64 build-new-version-linux-arm build-new-version-linux-arm64

@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Run Go tests locally
+
+# --- User inputs
+path=$1
+
+if [ -z "$path" ]
+then
+  go test -v ./...
+else
+  go test -v ./$path
+fi

@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	validatorPkg "github.com/go-playground/validator/v10"
+	"github.com/spf13/viper"
 
 	"github.com/nitschmann/releaser/internal/apperror"
 	"github.com/nitschmann/releaser/internal/validation"
@@ -43,8 +44,42 @@ func New() Config {
 	return Config{
 		Branch: newBranch(),
 		Commit: newCommit(),
+		Flags:  []Flag{},
 		Git:    newGit(),
 	}
+}
+
+// Init loads the config. This just should be called once per runtime
+func Init() error {
+	viper.SetConfigName("config")
+	viper.SetConfigType("yaml")
+
+	viper.AddConfigPath("./.releaser")
+	viper.AddConfigPath("$HOME/.releaser")
+	viper.AddConfigPath("/etc/releaser")
+
+	err := viper.ReadInConfig()
+	if err != nil {
+		_, ok := err.(viper.ConfigFileNotFoundError)
+		if !ok {
+			return err
+		}
+	}
+
+	return nil
+}
+
+// Load uses viper and unmarshals the YAML config into Global
+func Load() (*Global, error) {
+	globalCfg := NewGlobal()
+	cfg := &globalCfg
+
+	err := viper.Unmarshal(cfg)
+	if err != nil {
+		return nil, err
+	}
+
+	return cfg, nil
 }
 
 // Validate the Config structure

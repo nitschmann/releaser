@@ -6,6 +6,8 @@ import (
 
 	"github.com/spf13/cobra"
 
+	"github.com/nitschmann/releaser/internal/config"
+	"github.com/nitschmann/releaser/internal/data"
 	"github.com/nitschmann/releaser/internal/helper"
 )
 
@@ -13,9 +15,31 @@ var (
 	// Version is the global command line application version
 	Version string
 
-	rootCmd *RootCmd
+	cfg               config.Config
+	currentCommandDir string
+	rootCmd           *RootCmd
+	templateValues    *data.TextTemplateValues
 
 	_ = func() error {
+		templateValues = data.NewTextTemplateValues()
+
+		_currentCommandDir, err := os.Getwd()
+		if err != nil {
+			printCLIErrorAndExit(err)
+		}
+
+		currentCommandDir = _currentCommandDir
+
+		err = config.Init()
+		if err != nil {
+			printCLIErrorAndExit(err)
+		}
+
+		_, err = config.Load()
+		if err != nil {
+			printCLIErrorAndExit(err)
+		}
+
 		rootCmd = NewRootCmd()
 		rootCmd.InitSubCommands()
 
@@ -25,15 +49,10 @@ var (
 
 // Execute runs the whole command application
 func Execute() {
-	currentCommandDir, err := os.Getwd()
-	if err != nil {
-		printCLIErrorAndExit(err)
-	}
-
 	ctx := context.Background()
 	ctx = helper.NewContextWithCommandExecutionPath(ctx, currentCommandDir)
 
-	err = rootCmd.Cmd.ExecuteContext(ctx)
+	err := rootCmd.Cmd.ExecuteContext(ctx)
 	if err != nil {
 		printCLIErrorAndExit(err)
 	}

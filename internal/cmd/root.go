@@ -14,7 +14,7 @@ import (
 var (
 	// Version is the global command line application version
 	Version string
-
+	// Private vars
 	config            configPkg.Config
 	configFileUsed    string
 	currentCommandDir string
@@ -28,15 +28,9 @@ var (
 		if err != nil {
 			printCLIErrorAndExit(err)
 		}
-
 		currentCommandDir = _currentCommandDir
 
-		configFileUsed, err = configPkg.Init()
-		if err != nil {
-			printCLIErrorAndExit(err)
-		}
-
-		_, err = configPkg.Load()
+		err = initLoadAndValidateConfig()
 		if err != nil {
 			printCLIErrorAndExit(err)
 		}
@@ -89,8 +83,33 @@ their corresponding logs.`,
 
 func (rootCmd *RootCmd) InitSubCommands() {
 	cmd := rootCmd.Cmd
+	// 'config' command
+	cmd.AddCommand(newConfigCmd())
 	// 'project' command
 	cmd.AddCommand(newProjectCmd())
 	// 'version' command
 	cmd.AddCommand(newVersionCmd())
+}
+
+func initLoadAndValidateConfig() error {
+	_configFileUsed, err := configPkg.Init()
+	if err != nil {
+		return err
+	}
+
+	configFileUsed = _configFileUsed
+
+	globalConfig, err := configPkg.Load()
+	if err != nil {
+		return err
+	}
+
+	projectConfig, err := globalConfig.GetProjectConfigByPath(currentCommandDir, templateValues)
+	if err != nil {
+		return err
+	}
+
+	config = globalConfig.GetConfigWithPresentProjectValues(projectConfig)
+
+	return nil
 }

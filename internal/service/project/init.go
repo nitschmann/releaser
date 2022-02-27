@@ -30,7 +30,7 @@ func NewInitService(git gitPkg.Git) InitService {
 	}
 }
 
-// Call executes the service
+// Call and execute the serivce process
 func (s *initService) Call(ctx context.Context, autoYes bool) error {
 	commandPath := helper.CommandExecutionPathFromContext(ctx)
 	// Check if git repo is initialized under current path

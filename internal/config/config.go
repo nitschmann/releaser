@@ -12,6 +12,14 @@ import (
 )
 
 var (
+	// ConfigFileLookupPaths define the filepaths where to look for the releaser config file
+	ConfigFileLookupPaths []string = []string{
+		"./.releaser",
+		"$HOME/.releaser",
+		"~/.releaser",
+		"/etc/releaser",
+	}
+
 	// Branch config default values
 	BranchAllowedWithoutTypeDefault bool     = true
 	BranchDelimiterDefault          string   = "-"
@@ -58,10 +66,9 @@ func Init() (string, error) {
 	viper.SetConfigName("config")
 	viper.SetConfigType("yaml")
 
-	viper.AddConfigPath("./.releaser")
-	viper.AddConfigPath("$HOME/.releaser")
-	viper.AddConfigPath("~/.releaser")
-	viper.AddConfigPath("/etc/releaser")
+	for _, path := range ConfigFileLookupPaths {
+		viper.AddConfigPath(path)
+	}
 
 	err := viper.ReadInConfig()
 	if err != nil {

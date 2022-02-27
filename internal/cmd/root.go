@@ -6,7 +6,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/nitschmann/releaser/internal/config"
+	configPkg "github.com/nitschmann/releaser/internal/config"
 	"github.com/nitschmann/releaser/internal/data"
 	"github.com/nitschmann/releaser/internal/helper"
 )
@@ -15,7 +15,8 @@ var (
 	// Version is the global command line application version
 	Version string
 
-	cfg               config.Config
+	config            configPkg.Config
+	configFileUsed    string
 	currentCommandDir string
 	rootCmd           *RootCmd
 	templateValues    *data.TextTemplateValues
@@ -30,12 +31,12 @@ var (
 
 		currentCommandDir = _currentCommandDir
 
-		err = config.Init()
+		configFileUsed, err = configPkg.Init()
 		if err != nil {
 			printCLIErrorAndExit(err)
 		}
 
-		_, err = config.Load()
+		_, err = configPkg.Load()
 		if err != nil {
 			printCLIErrorAndExit(err)
 		}

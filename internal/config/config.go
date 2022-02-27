@@ -33,10 +33,14 @@ var (
 
 // Config has all the relevant settings
 type Config struct {
+	// Branch specific config fields
 	Branch Branch `mapstructure:"branch" yaml:"branch" validate:"required,dive"`
+	// Commit specific config fields
 	Commit Commit `mapstructure:"commit" yaml:"commit" validate:"required,dive"`
-	Flags  []Flag `mapstructure:"flags" yaml:"flags" validate:"dive"`
-	Git    Git    `mapstructure:"git" yaml:"git" validate:"required,dive"`
+	// Flags specify custom flags for commands
+	Flags []Flag `mapstructure:"flags" yaml:"flags" validate:"dive"`
+	// Git specific config fields
+	Git Git `mapstructure:"git" yaml:"git" validate:"required,dive"`
 }
 
 // New returns an new instance of Config with default values
@@ -49,37 +53,25 @@ func New() Config {
 	}
 }
 
-// Init loads the config. This just should be called once per runtime
-func Init() error {
+// Init loads the config from a file if found and returns the used config filepath as result
+func Init() (string, error) {
 	viper.SetConfigName("config")
 	viper.SetConfigType("yaml")
 
 	viper.AddConfigPath("./.releaser")
 	viper.AddConfigPath("$HOME/.releaser")
+	viper.AddConfigPath("~/.releaser")
 	viper.AddConfigPath("/etc/releaser")
 
 	err := viper.ReadInConfig()
 	if err != nil {
 		_, ok := err.(viper.ConfigFileNotFoundError)
 		if !ok {
-			return err
+			return "", err
 		}
 	}
 
-	return nil
-}
-
-// Load uses viper and unmarshals the YAML config into Global
-func Load() (*Global, error) {
-	globalCfg := NewGlobal()
-	cfg := &globalCfg
-
-	err := viper.Unmarshal(cfg)
-	if err != nil {
-		return nil, err
-	}
-
-	return cfg, nil
+	return viper.ConfigFileUsed(), nil
 }
 
 // Validate the Config structure

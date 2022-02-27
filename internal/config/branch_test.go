@@ -20,8 +20,8 @@ func (s *branchTestSuite) TestGetAllowedWithoutType() {
 	s.Equal(val, config.BranchAllowedWithoutTypeDefault)
 }
 
-func (s *branchTestSuite) TestGetDelimier() {
-	val := config.Branch{}.GetDelimier()
+func (s *branchTestSuite) TestGetDelimiter() {
+	val := config.Branch{}.GetDelimiter()
 	s.Equal(val, config.BranchDelimiterDefault)
 }
 

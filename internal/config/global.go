@@ -1,6 +1,11 @@
 package config
 
-import "github.com/nitschmann/releaser/internal/data"
+import (
+	"github.com/spf13/viper"
+
+	"github.com/nitschmann/releaser/internal/data"
+	"github.com/nitschmann/releaser/internal/helper"
+)
 
 // Global is the global config data structure of releaser.
 // This is the actual data structure in the YAML configuration file
@@ -11,9 +16,41 @@ type Global struct {
 }
 
 // NewGlobal returns an new instance of Global with default values
-func NewGlobal() Global {
-	return Global{
+func NewGlobal() *Global {
+	return &Global{
 		Config: New(),
+	}
+}
+
+// GetConfigWithPresentProjectValues creates an instance of Config and assigns values of the Project instance to it if present
+// Non-nil project param must be part of the Projects field.
+func (g Global) GetConfigWithPresentProjectValues(project *Project) Config {
+	if project == nil {
+		project = &Project{}
+	}
+
+	flags := project.Flags
+	if len(flags) == 0 {
+		flags = g.Flags
+	}
+
+	return Config{
+		Branch: Branch{
+			AllowedWithoutType: helper.BoolPointerOrBackup(project.Branch.AllowedWithoutType, g.Branch.GetAllowedWithoutType()),
+			Delimiter:          helper.StringPointerOrBackup(project.Branch.Delimiter, g.Branch.GetDelimiter()),
+			TitleFormat:        helper.StringPointerOrBackup(project.Branch.TitleFormat, g.Branch.GetTitleFormat()),
+			Types:              helper.StringSliceWithValuesOrBackup(project.Branch.Types, g.Branch.GetTypes()),
+		},
+		Commit: Commit{
+			AllowedWithoutType: helper.BoolPointerOrBackup(project.Commit.AllowedWithoutType, g.Commit.GetAllowedWithoutType()),
+			MessageFormat:      helper.StringPointerOrBackup(project.Commit.MessageFormat, g.Commit.GetMessageFormat()),
+			Types:              helper.StringSliceWithValuesOrBackup(project.Commit.Types, g.Commit.GetTypes()),
+		},
+		Git: Git{
+			Executable: helper.StringPointerOrBackup(project.Git.Executable, g.Git.GetExecutable()),
+			Remote:     helper.StringPointerOrBackup(project.Git.Remote, g.Git.GetRemote()),
+		},
+		Flags: flags,
 	}
 }
 
@@ -31,4 +68,16 @@ func (g Global) GetProjectConfigByPath(path string, textTemplateValues *data.Tex
 	}
 
 	return nil, nil
+}
+
+// Load uses viper and unmarshals the YAML config into Global struct
+func Load() (*Global, error) {
+	globalCfg := NewGlobal()
+
+	err := viper.Unmarshal(globalCfg)
+	if err != nil {
+		return nil, err
+	}
+
+	return globalCfg, nil
 }

@@ -2,7 +2,7 @@ package config
 
 import "fmt"
 
-// Flag is a custom configured flag which could be used fpr various commands of releaser
+// Flag is a custom configured flag which could be used for various commands of releaser
 type Flag struct {
 	Name           string  `mapstructure:"name" yaml:"name" validate:"required,alphanum,lowercase"`
 	Description    *string `mapstructure:"description" yaml:"description"`

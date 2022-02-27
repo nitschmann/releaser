@@ -17,7 +17,7 @@ func newBranch() Branch {
 	}
 }
 
-// GetAllowedWithoutType returns the value of the AllowedWithoutType field if given, else default value
+// GetAllowedWithoutType returns the value of the AllowedWithoutType field if present, else default value
 func (b Branch) GetAllowedWithoutType() bool {
 	if b.AllowedWithoutType != nil {
 		return *b.AllowedWithoutType
@@ -26,8 +26,8 @@ func (b Branch) GetAllowedWithoutType() bool {
 	return BranchAllowedWithoutTypeDefault
 }
 
-// GetDelimier returns the value of the Delimiter field if given, else default value
-func (b Branch) GetDelimier() string {
+// GetDelimiter returns the value of the Delimiter field if present, else default value
+func (b Branch) GetDelimiter() string {
 	if b.Delimiter != nil {
 		return *b.Delimiter
 	}
@@ -35,7 +35,7 @@ func (b Branch) GetDelimier() string {
 	return BranchDelimiterDefault
 }
 
-// GetTitleFormat returns the value of the TitleFormat field if given, else default value
+// GetTitleFormat returns the value of the TitleFormat field if present, else default value
 func (b Branch) GetTitleFormat() string {
 	if b.TitleFormat != nil {
 		return *b.TitleFormat
@@ -44,7 +44,7 @@ func (b Branch) GetTitleFormat() string {
 	return BranchTitleFormatDefault
 }
 
-// GetTypes returns the value of the Types field if given, else default value
+// GetTypes returns the value of the Types field if present, else default value
 func (b Branch) GetTypes() []string {
 	if len(b.Types) > 0 {
 		return b.Types

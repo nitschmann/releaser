@@ -5,7 +5,25 @@ func RemoveElementFromStringSlice(slice []string, el int) []string {
 	return append(slice[:el], slice[el+1:]...)
 }
 
+// StringPointerOrBackup returns the val attribute unless nil, else an pointer to the backupValue
+func StringPointerOrBackup(val *string, backupValue string) *string {
+	if val != nil {
+		return val
+	}
+
+	return &backupValue
+}
+
 // StringToPointer returns a given string as pointer
 func StringToPointer(str string) *string {
 	return &str
+}
+
+// StringSliceWithValuesOrBackup returns the list if not empty or the backup value
+func StringSliceWithValuesOrBackup(list []string, backupValue []string) []string {
+	if len(list) > 0 {
+		return list
+	}
+
+	return backupValue
 }

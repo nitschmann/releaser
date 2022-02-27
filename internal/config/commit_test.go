@@ -20,7 +20,7 @@ func (s *commitTestSuite) TestGetAllowedWithoutType() {
 	s.Equal(val, config.CommitAllowedWithoutTypeDefault)
 }
 
-func (s *commitTestSuite) TestGetDelimier() {
+func (s *commitTestSuite) TestGetMessageFormat() {
 	val := config.Commit{}.GetMessageFormat()
 	s.Equal(val, config.CommitMessageFormatDefault)
 }

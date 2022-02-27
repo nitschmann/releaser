@@ -4,13 +4,14 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"io/ioutil"
 	"os"
 	"path"
 
-	"github.com/manifoldco/promptui"
-
-	"github.com/nitschmann/releaser/internal/apperror"
+	"github.com/nitschmann/releaser/internal/config"
 	"github.com/nitschmann/releaser/internal/helper"
+	"github.com/nitschmann/releaser/internal/service"
+	configService "github.com/nitschmann/releaser/internal/service/config"
 	gitPkg "github.com/nitschmann/releaser/pkg/git"
 )
 
@@ -20,13 +21,15 @@ type InitService interface {
 }
 
 type initService struct {
-	Git gitPkg.Git
+	ConfigShowService configService.ShowService
+	Git               gitPkg.Git
 }
 
 // NewInitService initializes an new instance of InitService interface
 func NewInitService(git gitPkg.Git) InitService {
 	return &initService{
-		Git: git,
+		ConfigShowService: configService.NewShowService(),
+		Git:               git,
 	}
 }
 
@@ -39,8 +42,14 @@ func (s *initService) Call(ctx context.Context, autoYes bool) error {
 		return err
 	}
 
-	// Create config Directory if not exists
-	_, err = s.createConfigDir(commandPath)
+	// Create config directory if not exists
+	configDir, err := s.createConfigDir(commandPath)
+	if err != nil {
+		return err
+	}
+
+	// Create config file with contents
+	err = s.createConfigFile(ctx, configDir, autoYes)
 	if err != nil {
 		return err
 	}
@@ -67,7 +76,7 @@ func (s *initService) checkGitRepositoryExistence(commandPath string, autoYes bo
 		if !autoYes {
 			fmt.Println(err.Error())
 			msg := fmt.Sprintf("Directory '%s' is not a git respository. Do you want to continue?", commandPath)
-			err = s.promptYesOrNoWithExpectedYes(msg)
+			err = service.PromptYesOrNoWithExpectedYes(msg)
 			if err != nil {
 				return err
 			}
@@ -81,30 +90,39 @@ func (s *initService) createConfigDir(commandPath string) (string, error) {
 	configDirPath := path.Join(commandPath, ".releaser")
 	_, err := os.Stat(configDirPath)
 	if errors.Is(err, os.ErrNotExist) {
-		fmt.Printf("Creating '%s'...", configDirPath)
+		fmt.Printf("Creating '%s'...\n", configDirPath)
 
-		return "", os.Mkdir(configDirPath, os.ModePerm)
+		return configDirPath, os.Mkdir(configDirPath, os.ModePerm)
 	}
 
-	fmt.Printf("Directory '%s' already exists - skipping", configDirPath)
+	fmt.Printf("Directory '%s' already exists - skipping\n", configDirPath)
 
 	return configDirPath, nil
 }
 
-func (s *initService) promptYesOrNoWithExpectedYes(promptMsg string) error {
-	prompt := promptui.Select{
-		Label: promptMsg,
-		Items: []string{"Yes", "No"},
+func (s *initService) createConfigFile(ctx context.Context, configDir string, autoYes bool) error {
+	var err error
+	configFilepath := path.Join(configDir, "config.yaml")
+
+	if helper.FileExists(configFilepath) && !autoYes {
+		msg := fmt.Sprintf("Configuration file '%s' already exists. Do you want to overwrite it?\n", configFilepath)
+		err = service.PromptYesOrNoWithExpectedYes(msg)
+		if err != nil {
+			return err
+		}
 	}
 
-	_, result, err := prompt.Run()
+	yamlData, err := s.ConfigShowService.Call(ctx, config.New())
 	if err != nil {
 		return err
 	}
 
-	if result != "Yes" {
-		return apperror.NewPromptAbortError()
+	err = ioutil.WriteFile(configFilepath, yamlData, 0644)
+	if err != nil {
+		return err
 	}
 
-	return nil
+	fmt.Println("Sucessfully created releaser project and configuration file under " + configFilepath)
+
+	return err
 }

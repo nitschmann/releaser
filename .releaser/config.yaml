@@ -1,0 +1,22 @@
+branch:
+    allowed_without_type: true
+    delimiter: '-'
+    title_format: '{{if BranchType}}{{ .BranchType }}{{end}} {{ .BranchTitle }}'
+    types:
+        - bug
+        - feature
+        - fix
+        - hotfix
+commit:
+    allowed_without_type: true
+    message_format: '{{if CommitType}}{{ .CommitType | ToTitle }}:{{end}} {{ .CommitMessage }}'
+    types:
+        - adjustment
+        - bug
+        - feature
+        - fix
+        - hotfix
+git:
+    executable: git
+    remote: origin
+flags: []

@@ -45,10 +45,10 @@ type Config struct {
 	Branch Branch `mapstructure:"branch" yaml:"branch" validate:"required,dive"`
 	// Commit specific config fields
 	Commit Commit `mapstructure:"commit" yaml:"commit" validate:"required,dive"`
-	// Flags specify custom flags for commands
-	Flags []Flag `mapstructure:"flags" yaml:"flags" validate:"dive"`
 	// Git specific config fields
 	Git Git `mapstructure:"git" yaml:"git" validate:"required,dive"`
+	// Flags specify custom flags for commands
+	Flags []Flag `mapstructure:"flags" yaml:"flags" validate:"dive"`
 }
 
 // New returns an new instance of Config with default values
@@ -56,8 +56,8 @@ func New() Config {
 	return Config{
 		Branch: newBranch(),
 		Commit: newCommit(),
-		Flags:  []Flag{},
 		Git:    newGit(),
+		Flags:  []Flag{},
 	}
 }
 

@@ -41,12 +41,12 @@ var (
 
 // Config has all the relevant settings
 type Config struct {
+	// Git specific config fields
+	Git Git `mapstructure:"git" yaml:"git" validate:"required,dive"`
 	// Branch specific config fields
 	Branch Branch `mapstructure:"branch" yaml:"branch" validate:"required,dive"`
 	// Commit specific config fields
 	Commit Commit `mapstructure:"commit" yaml:"commit" validate:"required,dive"`
-	// Git specific config fields
-	Git Git `mapstructure:"git" yaml:"git" validate:"required,dive"`
 	// Flags specify custom flags for commands
 	Flags []Flag `mapstructure:"flags" yaml:"flags" validate:"dive"`
 }
@@ -54,9 +54,9 @@ type Config struct {
 // New returns an new instance of Config with default values
 func New() Config {
 	return Config{
+		Git:    newGit(),
 		Branch: newBranch(),
 		Commit: newCommit(),
-		Git:    newGit(),
 		Flags:  []Flag{},
 	}
 }
@@ -65,6 +65,7 @@ func New() Config {
 func Init() (string, error) {
 	viper.SetConfigName("config")
 	viper.SetConfigType("yaml")
+	viper.AutomaticEnv()
 
 	for _, path := range ConfigFileLookupPaths {
 		viper.AddConfigPath(path)

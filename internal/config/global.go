@@ -10,7 +10,7 @@ import (
 // Global is the global config data structure of releaser.
 // This is the actual data structure in the YAML configuration file
 type Global struct {
-	Config
+	Config `mapstructure:",squash"`
 	// Projects which are handled by releaser
 	Projects []Project `mapstructure:"projects" yaml:"projects"`
 }
@@ -72,12 +72,12 @@ func (g Global) GetProjectConfigByPath(path string, textTemplateValues *data.Tex
 
 // Load uses viper and unmarshals the YAML config into Global struct
 func Load() (*Global, error) {
-	globalCfg := NewGlobal()
+	globalConfig := &Global{}
 
-	err := viper.Unmarshal(globalCfg)
+	err := viper.Unmarshal(globalConfig)
 	if err != nil {
 		return nil, err
 	}
 
-	return globalCfg, nil
+	return globalConfig, nil
 }

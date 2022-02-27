@@ -111,5 +111,10 @@ func initLoadAndValidateConfig() error {
 
 	config = globalConfig.GetConfigWithPresentProjectValues(projectConfig)
 
+	err = config.Validate()
+	if err != nil {
+		return err
+	}
+
 	return nil
 }

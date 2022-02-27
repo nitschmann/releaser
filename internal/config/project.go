@@ -8,7 +8,7 @@ import (
 
 // Project is the project (path) specific config data structure
 type Project struct {
-	Config
+	Config `mapstructure:",squash"`
 	// Paths of the system to which these config settings should apply to. Supports wildcards
 	Paths []string `mapstructure:"paths" yaml:"paths"`
 }

@@ -12,14 +12,10 @@ import (
 // TextTemplateValues has data fields which could be used in text templates
 // (https://golangforall.com/en/post/templates.html)
 type TextTemplateValues struct {
-	// Given title of a branch
-	BranchTitle string
-	// BranchType is the given type of a branch
-	BranchType string
+	// BranchName is the specified name of a new git branch
+	BranchName string
 	// CommitMessage  is the given message of a commit
 	CommitMessage string
-	// CommitType  is the given type of a commit
-	CommitType string
 	// Datetime specific values
 	DTYear   string
 	DTMonth  string
@@ -27,13 +23,15 @@ type TextTemplateValues struct {
 	DTHour   string
 	DTMinute string
 	DTSecond string
-	// Flags custom defined
-	Flags map[string]string
 	// UserHomeDir is the home direcotry path of the current user
 	UserHomeDir string
 	// Release specific values
-	ReleaseNewVersion    string
-	RelaseCurrentVersion string
+	ReleaseNewVersion     string
+	ReleaseCurrentVersion string
+	// Type is the specified type flag
+	Type string
+	// Flags custom defined
+	Flags map[string]string
 }
 
 // NewTextTemplateValues returns a new pointer instance of TextTemplateValues with default values
@@ -69,7 +67,7 @@ func (ttv *TextTemplateValues) helperFunctions() template.FuncMap {
 // ParseTemplateString uses a given template string, parses it with the specified fields in the struct
 // and returns the result as string. An error is returned in cases of any error during the process.
 func (ttv *TextTemplateValues) ParseTemplateString(templateStr string) (string, error) {
-	t, err := template.New("").Funcs(ttv.helperFunctions()).Parse(templateStr)
+	t, err := template.New("test").Funcs(ttv.helperFunctions()).Parse(templateStr)
 	if err != nil {
 		return "", err
 	}

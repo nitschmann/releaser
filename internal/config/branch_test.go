@@ -25,9 +25,9 @@ func (s *branchTestSuite) TestGetDelimiter() {
 	s.Equal(val, config.BranchDelimiterDefault)
 }
 
-func (s *branchTestSuite) TestGetTitleFormat() {
-	val := config.Branch{}.GetTitleFormat()
-	s.Equal(val, config.BranchTitleFormatDefault)
+func (s *branchTestSuite) TestGetNameFormat() {
+	val := config.Branch{}.GetNameFormat()
+	s.Equal(val, config.BranchNameFormatDefault)
 }
 
 func (s *branchTestSuite) TestGetTypes() {

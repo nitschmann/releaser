@@ -27,3 +27,14 @@ func StringSliceWithValuesOrBackup(list []string, backupValue []string) []string
 
 	return backupValue
 }
+
+// StringSliceIncludesElement checks if a given slice of String includes the specified element
+func StringSliceIncludesElement(list []string, element string) bool {
+	for _, i := range list {
+		if i == element {
+			return true
+		}
+	}
+
+	return false
+}

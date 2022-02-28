@@ -38,7 +38,7 @@ func (g Global) GetConfigWithPresentProjectValues(project *Project) Config {
 		Branch: Branch{
 			AllowedWithoutType: helper.BoolPointerOrBackup(project.Branch.AllowedWithoutType, g.Branch.GetAllowedWithoutType()),
 			Delimiter:          helper.StringPointerOrBackup(project.Branch.Delimiter, g.Branch.GetDelimiter()),
-			TitleFormat:        helper.StringPointerOrBackup(project.Branch.TitleFormat, g.Branch.GetTitleFormat()),
+			NameFormat:        helper.StringPointerOrBackup(project.Branch.NameFormat, g.Branch.GetNameFormat()),
 			Types:              helper.StringSliceWithValuesOrBackup(project.Branch.Types, g.Branch.GetTypes()),
 		},
 		Commit: Commit{

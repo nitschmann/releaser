@@ -19,12 +19,12 @@ Initialize a new releaser project in the current directory with a default config
 			RunE: func(cmd *cobra.Command, args []string) error {
 				ctx := cmd.Context()
 
-				gitExecutable, err := cmd.Flags().GetString("git-executable")
+				gitExecutable, err := getGitExecutableByFlag(cmd)
 				if err != nil {
 					return err
 				}
 
-				autoYes, err := cmd.Flags().GetBool("yes")
+				autoYes, err := getAutoYesyByFlag(cmd)
 				if err != nil {
 					return err
 				}

@@ -8,3 +8,8 @@ func BoolPointerOrBackup(val *bool, backupValue bool) *bool {
 
 	return &backupValue
 }
+
+// BoolToPointer returns a given bool value as pointer
+func BoolToPointer(val bool) *bool {
+	return &val
+}

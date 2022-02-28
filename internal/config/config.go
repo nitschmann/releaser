@@ -23,17 +23,17 @@ var (
 	// Branch config default values
 	BranchAllowedWithoutTypeDefault bool     = true
 	BranchDelimiterDefault          string   = "-"
-	BranchTitleFormatDefault        string   = "{{if BranchType}}{{ .BranchType }}{{end}} {{ .BranchTitle }}"
+	BranchNameFormatDefault         string   = "{{if Type}}{{ .Type }}{{end}} {{ .BranchName }}"
 	BranchTypesDefault              []string = []string{"bug", "feature", "fix", "hotfix"}
 	// Commit config default values
 	CommitAllowedWithoutTypeDefault bool     = true
-	CommitMessageFormatDefault      string   = "{{if CommitType}}{{ .CommitType | ToTitle }}:{{end}} {{ .CommitMessage }}"
+	CommitMessageFormatDefault      string   = "{{if Type}}{{ .Type | ToTitle }}:{{end}} {{ .CommitMessage }}"
 	CommitTypesDefault              []string = []string{"adjustment", "bug", "feature", "fix", "hotfix"}
 	// Flag config default values
 	FlagRequiredDefault       bool = false
 	FlagSkipForBranchDefault  bool = false
 	FlagSkipForCommitDefault  bool = false
-	FlagSkipForReleaseDefault bool = false
+	FlagSkipForReleaseDefault bool = true
 	// Git config default values
 	GitExecutableDefault string = "git"
 	GitRemoteDefault     string = "origin"
@@ -65,7 +65,6 @@ func New() Config {
 func Init() (string, error) {
 	viper.SetConfigName("config")
 	viper.SetConfigType("yaml")
-	viper.AutomaticEnv()
 
 	for _, path := range ConfigFileLookupPaths {
 		viper.AddConfigPath(path)
@@ -80,6 +79,45 @@ func Init() (string, error) {
 	}
 
 	return viper.ConfigFileUsed(), nil
+}
+
+// GetFlagsForBranch returns all entries of the Flags field where SkipForBranch is not true
+func (c Config) GetFlagsForBranch() []Flag {
+	var flags []Flag
+
+	for _, flag := range c.Flags {
+		if !flag.GetSkipForBranch() {
+			flags = append(flags, flag)
+		}
+	}
+
+	return flags
+}
+
+// GetFlagsForCommit returns all entries of the Flags field where SkipForCommit is not true
+func (c Config) GetFlagsForCommit() []Flag {
+	var flags []Flag
+
+	for _, flag := range c.Flags {
+		if !flag.GetSkipForCommit() {
+			flags = append(flags, flag)
+		}
+	}
+
+	return flags
+}
+
+// GetFlagsForRelease returns all entries of the Flags field where SkipForRelease is not true
+func (c Config) GetFlagsForRelease() []Flag {
+	var flags []Flag
+
+	for _, flag := range c.Flags {
+		if !flag.GetSkipForRelease() {
+			flags = append(flags, flag)
+		}
+	}
+
+	return flags
 }
 
 // Validate the Config structure

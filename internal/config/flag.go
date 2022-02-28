@@ -7,6 +7,7 @@ type Flag struct {
 	Name           string  `mapstructure:"name" yaml:"name" validate:"required,alphanum,lowercase"`
 	Description    *string `mapstructure:"description" yaml:"description"`
 	Required       *bool   `mapstructure:"required" yaml:"required"`
+	Default        string  `mapstructure:"default" yaml:"default"`
 	SkipForBranch  *bool   `mapstructure:"skip_for_branch" yaml:"skip_for_branch"`
 	SkipForCommit  *bool   `mapstructure:"skip_for_commit" yaml:"skip_for_commit"`
 	SkipForRelease *bool   `mapstructure:"skip_for_release" yaml:"skip_for_release"`
@@ -15,6 +16,11 @@ type Flag struct {
 // GetName returns the value of the Name field
 func (f Flag) GetName() string {
 	return f.Name
+}
+
+// GetDefault returns the value of the Default field
+func (f Flag) GetDefault() string {
+	return f.Default
 }
 
 // GetDescription returns the value of the Description field if given, else default values

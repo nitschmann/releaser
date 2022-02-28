@@ -30,8 +30,8 @@ func (s *textTemplateValuesTestSuite) TestParseTemplateString() {
 	s.Run("with given field", func() {
 		branchType := "feature"
 		templateValues := data.NewTextTemplateValues()
-		templateValues.BranchType = branchType
-		templateString := "{{ .BranchType }}-branch"
+		templateValues.Type = branchType
+		templateString := "{{ .Type }}-branch"
 
 		result, err := templateValues.ParseTemplateString(templateString)
 
@@ -41,7 +41,7 @@ func (s *textTemplateValuesTestSuite) TestParseTemplateString() {
 
 	s.Run("with empty field being used", func() {
 		templateValues := data.NewTextTemplateValues()
-		templateString := "{{ if .BranchType }}{{ .BranchType }}-{{ end }}branch"
+		templateString := "{{ if .Type }}{{ .Type }}-{{ end }}branch"
 
 		result, err := templateValues.ParseTemplateString(templateString)
 

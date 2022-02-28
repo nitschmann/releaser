@@ -24,7 +24,7 @@ func (s *globalTestSuite) TestGetConfigWithPresentProjectValues() {
 
 		s.Equal(cfg.Branch.AllowedWithoutType, &config.BranchAllowedWithoutTypeDefault)
 		s.Equal(cfg.Branch.Delimiter, &config.BranchDelimiterDefault)
-		s.Equal(cfg.Branch.TitleFormat, &config.BranchTitleFormatDefault)
+		s.Equal(cfg.Branch.NameFormat, &config.BranchNameFormatDefault)
 		s.Equal(cfg.Branch.Types, config.BranchTypesDefault)
 		s.Equal(cfg.Commit.AllowedWithoutType, &config.CommitAllowedWithoutTypeDefault)
 		s.Equal(cfg.Commit.MessageFormat, &config.CommitMessageFormatDefault)
@@ -43,7 +43,7 @@ func (s *globalTestSuite) TestGetConfigWithPresentProjectValues() {
 
 		s.Equal(cfg.Branch.AllowedWithoutType, &config.BranchAllowedWithoutTypeDefault)
 		s.Equal(cfg.Branch.Delimiter, &delimiter)
-		s.Equal(cfg.Branch.TitleFormat, &config.BranchTitleFormatDefault)
+		s.Equal(cfg.Branch.NameFormat, &config.BranchNameFormatDefault)
 		s.Equal(cfg.Branch.Types, config.BranchTypesDefault)
 		s.Equal(cfg.Commit.AllowedWithoutType, &config.CommitAllowedWithoutTypeDefault)
 		s.Equal(cfg.Commit.MessageFormat, &config.CommitMessageFormatDefault)
@@ -73,7 +73,7 @@ func (s *globalTestSuite) TestGetConfigWithPresentProjectValues() {
 
 		s.Equal(cfg.Branch.AllowedWithoutType, &config.BranchAllowedWithoutTypeDefault)
 		s.Equal(cfg.Branch.GetDelimiter(), projectBranchDelimiter)
-		s.Equal(cfg.Branch.TitleFormat, &config.BranchTitleFormatDefault)
+		s.Equal(cfg.Branch.NameFormat, &config.BranchNameFormatDefault)
 		s.Equal(cfg.Branch.Types, config.BranchTypesDefault)
 		s.Equal(cfg.Commit.AllowedWithoutType, &config.CommitAllowedWithoutTypeDefault)
 		s.Equal(cfg.Commit.MessageFormat, &config.CommitMessageFormatDefault)

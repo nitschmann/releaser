@@ -4,7 +4,7 @@ package config
 type Branch struct {
 	AllowedWithoutType *bool    `mapstructure:"allowed_without_type" yaml:"allowed_without_type" validate:"required"`
 	Delimiter          *string  `mapstructure:"delimiter" yaml:"delimiter" validate:"required,len=1"`
-	TitleFormat        *string  `mapstructure:"title_format" yaml:"title_format" validate:"required`
+	NameFormat         *string  `mapstructure:"name_format" yaml:"name_format" validate:"required`
 	Types              []string `mapstructure:"types" yaml:"types" validate:"required,unique,dive,lowercase,alphanum"`
 }
 
@@ -12,7 +12,7 @@ func newBranch() Branch {
 	return Branch{
 		AllowedWithoutType: &BranchAllowedWithoutTypeDefault,
 		Delimiter:          &BranchDelimiterDefault,
-		TitleFormat:        &BranchTitleFormatDefault,
+		NameFormat:         &BranchNameFormatDefault,
 		Types:              BranchTypesDefault,
 	}
 }
@@ -35,13 +35,13 @@ func (b Branch) GetDelimiter() string {
 	return BranchDelimiterDefault
 }
 
-// GetTitleFormat returns the value of the TitleFormat field if present, else default value
-func (b Branch) GetTitleFormat() string {
-	if b.TitleFormat != nil {
-		return *b.TitleFormat
+// GetNameFormat returns the value of the NameFormat field if present, else default value
+func (b Branch) GetNameFormat() string {
+	if b.NameFormat != nil {
+		return *b.NameFormat
 	}
 
-	return BranchTitleFormatDefault
+	return BranchNameFormatDefault
 }
 
 // GetTypes returns the value of the Types field if present, else default value

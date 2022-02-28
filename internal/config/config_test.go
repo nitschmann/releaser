@@ -18,6 +18,38 @@ func TestConfigSuite(t *testing.T) {
 	suite.Run(t, new(configTestSuite))
 }
 
+func (s *configTestSuite) TestGetFlagsForBranch() {
+	flags := []config.Flag{
+		{Name: "branchflag"},
+		{Name: "commitflag", SkipForBranch: helper.BoolToPointer(true)},
+		{Name: "releaseflag", SkipForRelease: helper.BoolToPointer(true)},
+	}
+
+	cfg := config.New()
+	cfg.Flags = flags
+
+	branchFlags := cfg.GetFlagsForBranch()
+
+	s.Equal(len(branchFlags), 2)
+	s.NotContains(branchFlags, flags[1])
+}
+
+func (s *configTestSuite) TestGetFlagsForCommit() {
+	flags := []config.Flag{
+		{Name: "branchflag", SkipForCommit: helper.BoolToPointer(true)},
+		{Name: "commitflag", SkipForBranch: helper.BoolToPointer(true)},
+		{Name: "releaseflag", SkipForRelease: helper.BoolToPointer(true)},
+	}
+
+	cfg := config.New()
+	cfg.Flags = flags
+
+	commitFlags := cfg.GetFlagsForCommit()
+
+	s.Equal(len(commitFlags), 2)
+	s.NotContains(commitFlags, flags[0])
+}
+
 func (s *configTestSuite) TestValidate() {
 	s.Run("with default values", func() {
 		c := config.New()

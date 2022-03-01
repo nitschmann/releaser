@@ -57,9 +57,7 @@ func newCommitCmd() *cobra.Command {
 					return err
 				}
 
-				if onlyMessage {
-					fmt.Println(commitMessage)
-				}
+				fmt.Println(commitMessage)
 
 				return nil
 			},

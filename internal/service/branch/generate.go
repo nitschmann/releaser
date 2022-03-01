@@ -46,7 +46,7 @@ func (s *generateService) Call(
 	var branchName string
 
 	// Check if branchType is valid if given
-	err := service.ValidateType(cfg.Branch.GetTypes(), branchType)
+	err := service.ValidateType(cfg.Branch.GetTypes(), branchType, true)
 	if err != nil {
 		return branchName, err
 	}

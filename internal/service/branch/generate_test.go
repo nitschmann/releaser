@@ -131,6 +131,7 @@ func (s *generateServiceTestSuite) TestCall() {
 		customIssue := "1"
 
 		cfg := s.defaultConfig()
+		cfg.Flags = []config.Flag{{Name: "issue"}}
 		cfg.Branch.Delimiter = &delimiter
 		cfg.Branch.NameFormat = &branchNameFormat
 		cfg.Branch.Types = append(cfg.Branch.Types, customBranchType)

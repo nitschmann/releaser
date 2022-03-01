@@ -41,7 +41,11 @@ func ValidateCustomFlags(validFlagNames []string, flags map[string]string) error
 }
 
 // ValidateType validate if the specified type value is part of the allowedTypes list
-func ValidateType(allowedTypes []string, t string) error {
+func ValidateType(allowedTypes []string, t string, allowEmpty bool) error {
+	if allowEmpty && t == "" {
+		return nil
+	}
+
 	if !helper.StringSliceIncludesElement(allowedTypes, t) {
 		return apperror.NewInvalidFlagValueError("type", t)
 	}

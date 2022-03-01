@@ -46,7 +46,7 @@ func (s *createService) Call(
 	var commitMessage string
 
 	// Check if commitType is valid
-	err := service.ValidateType(cfg.Commit.GetTypes(), commitType)
+	err := service.ValidateType(cfg.Commit.GetTypes(), commitType, true)
 	if err != nil {
 		return commitMessage, err
 	}

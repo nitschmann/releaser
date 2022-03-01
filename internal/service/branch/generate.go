@@ -5,20 +5,20 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/nitschmann/releaser/internal/apperror"
 	"github.com/nitschmann/releaser/internal/config"
 	"github.com/nitschmann/releaser/internal/data"
-	"github.com/nitschmann/releaser/internal/helper"
+	"github.com/nitschmann/releaser/internal/service"
 	gitPkg "github.com/nitschmann/releaser/pkg/git"
 )
 
 // GenerateService is the service interface to generate and checkout new git branches with name
 type GenerateService interface {
+	// Call and execute the process
 	Call(
 		ctx context.Context,
 		cfg config.Config,
 		textTemplateValues *data.TextTemplateValues,
-		flags map[string]string,
+		customFlags map[string]string,
 		name string,
 		branchType string,
 		checkout bool,
@@ -34,12 +34,11 @@ func NewGenerateService(git gitPkg.Git) GenerateService {
 	return &generateService{Git: git}
 }
 
-// Call and execute the process
 func (s *generateService) Call(
 	ctx context.Context,
 	cfg config.Config,
 	textTemplateValues *data.TextTemplateValues,
-	flags map[string]string,
+	customFlags map[string]string,
 	name string,
 	branchType string,
 	checkout bool,
@@ -47,21 +46,24 @@ func (s *generateService) Call(
 	var branchName string
 
 	// Check if branchType is valid if given
-	if branchType != "" {
-		allowedTypes := cfg.Branch.GetTypes()
-		if !helper.StringSliceIncludesElement(allowedTypes, branchType) {
-			return branchName, apperror.NewInvalidFlagValueError("type", branchType)
-		}
+	err := service.ValidateType(cfg.Branch.GetTypes(), branchType)
+	if err != nil {
+		return branchName, err
+	}
 
-		textTemplateValues.Type = branchType
+	// Validate custom customFlags
+	err = service.ValidateCustomFlags(cfg.GetFlagsForBranch().Names(), customFlags)
+	if err != nil {
+		return branchName, err
 	}
 
 	// Assign values for text template
 	textTemplateValues.BranchName = strings.ToLower(name)
-	textTemplateValues.Flags = flags
+	textTemplateValues.Flags = customFlags
+	textTemplateValues.Type = branchType
 
 	// Generate basic branch name based on template data
-	branchName, err := textTemplateValues.ParseTemplateString(cfg.Branch.GetNameFormat())
+	branchName, err = textTemplateValues.ParseTemplateString(cfg.Branch.GetNameFormat())
 	if err != nil {
 		return branchName, err
 	}
@@ -72,9 +74,9 @@ func (s *generateService) Call(
 	// Replace rest of spaces with delimiter
 	delimiter := cfg.Branch.GetDelimiter()
 	branchName = space.ReplaceAllString(branchName, delimiter)
-	// // Replace all leading and trailing whitespaces
+	// Replace all leading and trailing whitespaces
 	branchName = strings.TrimSpace(branchName)
-	// // Ensure string does not start and end with delimiter
+	// Ensure string does not start and end with delimiter
 	branchName = strings.TrimPrefix(branchName, delimiter)
 	branchName = strings.TrimSuffix(branchName, delimiter)
 

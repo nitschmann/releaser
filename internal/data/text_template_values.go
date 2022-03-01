@@ -60,7 +60,7 @@ func (ttv *TextTemplateValues) helperFunctions() template.FuncMap {
 	return template.FuncMap{
 		"ToLower": strings.ToLower,
 		"ToUpper": strings.ToUpper,
-		"ToTitle": strings.ToTitle,
+		"ToTitle": strings.Title,
 	}
 }
 

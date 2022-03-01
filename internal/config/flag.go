@@ -67,3 +67,17 @@ func (f Flag) GetSkipForRelease() bool {
 
 	return FlagSkipForReleaseDefault
 }
+
+// FlagList is a slice of Flag entries with some helpful functions
+type FlagList []Flag
+
+// Names of the entries in the FlagList
+func (fl FlagList) Names() []string {
+	var names []string
+
+	for _, flag := range fl {
+		names = append(names, flag.GetName())
+	}
+
+	return names
+}

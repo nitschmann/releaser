@@ -13,8 +13,8 @@ func newBranchCmd() *cobra.Command {
 		&cobra.Command{
 			Use:     "branch [NAME]",
 			Aliases: []string{"b"},
-			Short:   "Generate branch name",
 			Args:    cobra.ExactArgs(1),
+			Short:   "Generate new branch",
 			Long: `
 Generate a new branch name based on the configuration and check it out (optional).
 In case the branch name is invalid (based on git standards) it will raise a warning.

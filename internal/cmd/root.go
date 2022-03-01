@@ -85,6 +85,8 @@ func (rootCmd *RootCmd) InitSubCommands() {
 	cmd := rootCmd.Cmd
 	// 'branch' command
 	cmd.AddCommand(newBranchCmd())
+	// 'commit' commmand
+	cmd.AddCommand(newCommitCmd())
 	// 'config' command
 	cmd.AddCommand(newConfigCmd())
 	// 'project' command

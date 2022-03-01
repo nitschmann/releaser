@@ -6,6 +6,7 @@ import (
 	"github.com/manifoldco/promptui"
 
 	"github.com/nitschmann/releaser/internal/apperror"
+	"github.com/nitschmann/releaser/internal/helper"
 )
 
 // PromptYesOrNoWithExpectedYes prompts the user in the CLI with 'yes' and 'no' and expects 'yes' to be choosen, else error.
@@ -23,6 +24,26 @@ func PromptYesOrNoWithExpectedYes(promptMsg string) error {
 
 	if result != "Yes" {
 		return apperror.NewPromptAbortError()
+	}
+
+	return nil
+}
+
+// ValidateCustomFlags checks if the specified map of flag matches with the valid flag names
+func ValidateCustomFlags(validFlagNames []string, flags map[string]string) error {
+	for flagName := range flags {
+		if !helper.StringSliceIncludesElement(validFlagNames, flagName) {
+			return apperror.NewInvalidFlagError(flagName)
+		}
+	}
+
+	return nil
+}
+
+// ValidateType validate if the specified type value is part of the allowedTypes list
+func ValidateType(allowedTypes []string, t string) error {
+	if !helper.StringSliceIncludesElement(allowedTypes, t) {
+		return apperror.NewInvalidFlagValueError("type", t)
 	}
 
 	return nil

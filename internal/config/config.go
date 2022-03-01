@@ -23,11 +23,11 @@ var (
 	// Branch config default values
 	BranchAllowedWithoutTypeDefault bool     = true
 	BranchDelimiterDefault          string   = "-"
-	BranchNameFormatDefault         string   = "{{if Type}}{{ .Type }}{{end}} {{ .BranchName }}"
+	BranchNameFormatDefault         string   = "{{if .Type}}{{ .Type }}{{end}} {{ .BranchName }}"
 	BranchTypesDefault              []string = []string{"bug", "feature", "fix", "hotfix"}
 	// Commit config default values
 	CommitAllowedWithoutTypeDefault bool     = true
-	CommitMessageFormatDefault      string   = "{{if Type}}{{ .Type | ToTitle }}:{{end}} {{ .CommitMessage }}"
+	CommitMessageFormatDefault      string   = "{{if .Type}}{{ .Type | ToTitle }}:{{end}} {{ .CommitMessage }}"
 	CommitTypesDefault              []string = []string{"adjustment", "bug", "feature", "fix", "hotfix"}
 	// Flag config default values
 	FlagRequiredDefault       bool = false
@@ -82,8 +82,8 @@ func Init() (string, error) {
 }
 
 // GetFlagsForBranch returns all entries of the Flags field where SkipForBranch is not true
-func (c Config) GetFlagsForBranch() []Flag {
-	var flags []Flag
+func (c Config) GetFlagsForBranch() FlagList {
+	var flags FlagList
 
 	for _, flag := range c.Flags {
 		if !flag.GetSkipForBranch() {
@@ -95,8 +95,8 @@ func (c Config) GetFlagsForBranch() []Flag {
 }
 
 // GetFlagsForCommit returns all entries of the Flags field where SkipForCommit is not true
-func (c Config) GetFlagsForCommit() []Flag {
-	var flags []Flag
+func (c Config) GetFlagsForCommit() FlagList {
+	var flags FlagList
 
 	for _, flag := range c.Flags {
 		if !flag.GetSkipForCommit() {
@@ -108,8 +108,8 @@ func (c Config) GetFlagsForCommit() []Flag {
 }
 
 // GetFlagsForRelease returns all entries of the Flags field where SkipForRelease is not true
-func (c Config) GetFlagsForRelease() []Flag {
-	var flags []Flag
+func (c Config) GetFlagsForRelease() FlagList {
+	var flags FlagList
 
 	for _, flag := range c.Flags {
 		if !flag.GetSkipForRelease() {

@@ -35,6 +35,10 @@ func getCustomFlagValuesForBranch(cmd *cobra.Command) (map[string]string, error)
 	return getCustomFlagValues(config.GetFlagsForBranch(), cmd)
 }
 
+func getCustomFlagValuesForCommit(cmd *cobra.Command) (map[string]string, error) {
+	return getCustomFlagValues(config.GetFlagsForCommit(), cmd)
+}
+
 func getGitExecutableByFlag(cmd *cobra.Command) (string, error) {
 	return cmd.Flags().GetString(gitExecutableFlagName)
 }
@@ -45,7 +49,7 @@ func getTypeByFlag(cmd *cobra.Command) (string, error) {
 
 func printCLIErrorAndExit(err error) {
 	switch e := err.(type) {
-	case *apperror.ConfigValidationErrors, *apperror.InvalidFlagValueError:
+	case *apperror.ConfigValidationErrors, *apperror.InvalidFlagValueError, *apperror.InvalidFlagError:
 		fmt.Println(err.Error())
 	case *apperror.PromptAbortError:
 		fmt.Printf("%s\n", err.Error())

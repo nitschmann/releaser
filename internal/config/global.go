@@ -38,13 +38,19 @@ func (g Global) GetConfigWithPresentProjectValues(project *Project) Config {
 		Branch: Branch{
 			AllowedWithoutType: helper.BoolPointerOrBackup(project.Branch.AllowedWithoutType, g.Branch.GetAllowedWithoutType()),
 			Delimiter:          helper.StringPointerOrBackup(project.Branch.Delimiter, g.Branch.GetDelimiter()),
-			NameFormat:        helper.StringPointerOrBackup(project.Branch.NameFormat, g.Branch.GetNameFormat()),
+			NameFormat:         helper.StringPointerOrBackup(project.Branch.NameFormat, g.Branch.GetNameFormat()),
 			Types:              helper.StringSliceWithValuesOrBackup(project.Branch.Types, g.Branch.GetTypes()),
 		},
 		Commit: Commit{
 			AllowedWithoutType: helper.BoolPointerOrBackup(project.Commit.AllowedWithoutType, g.Commit.GetAllowedWithoutType()),
 			MessageFormat:      helper.StringPointerOrBackup(project.Commit.MessageFormat, g.Commit.GetMessageFormat()),
 			Types:              helper.StringSliceWithValuesOrBackup(project.Commit.Types, g.Commit.GetTypes()),
+		},
+		Release: Release{
+			FirstTag:      helper.StringPointerOrBackup(project.Release.FirstTag, g.Release.GetFirstTag()),
+			Target:            helper.StringPointerOrBackup(project.Release.Target, g.Release.GetTarget()),
+			NameFormat:        helper.StringPointerOrBackup(project.Release.NameFormat, g.Release.GetNameFormat()),
+			DescriptionFormat: helper.StringPointerOrBackup(project.Release.DescriptionFormat, g.Release.GetDescriptionFormat()),
 		},
 		Git: Git{
 			Executable: helper.StringPointerOrBackup(project.Git.Executable, g.Git.GetExecutable()),

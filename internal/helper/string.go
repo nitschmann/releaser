@@ -1,5 +1,18 @@
 package helper
 
+// CleanEmptyEntriesFromStringSlice removes empty strings from specified slice
+func CleanEmptyEntriesFromStringSlice(slice []string) []string {
+	var result []string
+
+	for _, s := range slice {
+		if s != "" {
+			result = append(result, s)
+		}
+	}
+
+	return result
+}
+
 // RemoveElementFromStringSlice removes an element at the specific index
 func RemoveElementFromStringSlice(slice []string, el int) []string {
 	return append(slice[:el], slice[el+1:]...)

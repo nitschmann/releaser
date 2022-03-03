@@ -9,7 +9,11 @@ import (
 
 // Remote is the interface to manage git remotes
 type Remote interface {
+	// GetHttpURL returns the URL of the given remote name in HTTP(S) format
 	GetHttpURL(name string) (string, error)
+	// GetProject returns the project part of the remote remote URL
+	GetProject(name string) (string, error)
+	// GetURL returns the URL of the given remote name
 	GetURL(name string) (*url.URL, error)
 }
 
@@ -22,7 +26,6 @@ func NewRemote(gitObj Git) Remote {
 	return remote{Git: gitObj}
 }
 
-// GetHttpURL returns the URL of the given remote name in HTTP(S) format
 func (r remote) GetHttpURL(name string) (string, error) {
 	url, err := r.GetURL(name)
 	if err != nil {
@@ -38,7 +41,24 @@ func (r remote) GetHttpURL(name string) (string, error) {
 	return url.String(), nil
 }
 
-// GetURL returns the URL of the given remote name
+func (r remote) GetProject(name string) (string, error) {
+	var project string
+
+	httpURL, err := r.GetHttpURL(name)
+	if err != nil {
+		return project, err
+	}
+
+	url, err := url.Parse(httpURL)
+	if err != nil {
+		return project, err
+	}
+
+	project = strings.TrimPrefix(url.Path, "/")
+
+	return project, nil
+}
+
 func (r remote) GetURL(name string) (*url.URL, error) {
 	var gitURL *url.URL
 

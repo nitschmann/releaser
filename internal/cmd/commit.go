@@ -3,9 +3,10 @@ package cmd
 import (
 	"fmt"
 
+	"github.com/spf13/cobra"
+
 	"github.com/nitschmann/releaser/internal/service/commit"
 	"github.com/nitschmann/releaser/pkg/git"
-	"github.com/spf13/cobra"
 )
 
 func newCommitCmd() *cobra.Command {

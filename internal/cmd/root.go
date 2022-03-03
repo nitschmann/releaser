@@ -91,6 +91,8 @@ func (rootCmd *RootCmd) InitSubCommands() {
 	cmd.AddCommand(newConfigCmd())
 	// 'project' command
 	cmd.AddCommand(newProjectCmd())
+	// 'release' command
+	cmd.AddCommand(newReleaseCmd())
 	// 'version' command
 	cmd.AddCommand(newVersionCmd())
 }

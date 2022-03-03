@@ -76,6 +76,19 @@ func (s *remoteTestSuite) TestGetHttpURL() {
 
 }
 
+func (s *remoteTestSuite) TestGetProject() {
+	remoteName := "origin"
+	gitCmdArgs := []string{"ls-remote", "--get-url", remoteName}
+	returnedRemoteURLStr := "git@github.com:nitschmann/releaser.git"
+	s.git.On("ExecCommand", gitCmdArgs).Once().Return(returnedRemoteURLStr, 0, nil)
+
+	remote := git.NewRemote(s.git)
+	project, err := remote.GetProject(remoteName)
+
+	s.NoError(err)
+	s.Equal(project, "nitschmann/releaser")
+}
+
 func (s *remoteTestSuite) TestGetURL() {
 	remoteName := "origin"
 	gitCmdArgs := []string{"ls-remote", "--get-url", remoteName}

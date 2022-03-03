@@ -7,6 +7,8 @@ import (
 	"strings"
 	"text/template"
 	"time"
+
+	"github.com/nitschmann/releaser/pkg/git"
 )
 
 // TextTemplateValues has data fields which could be used in text templates
@@ -23,15 +25,21 @@ type TextTemplateValues struct {
 	DTHour   string
 	DTMinute string
 	DTSecond string
-	// UserHomeDir is the home direcotry path of the current user
-	UserHomeDir string
-	// Release specific values
-	ReleaseNewVersion     string
-	ReleaseCurrentVersion string
-	// Type is the specified type flag
-	Type string
 	// Flags custom defined
 	Flags map[string]string
+	// Git specific values
+	GitRemote      string
+	GitRepoHttpURL string
+	GitRepoName    string
+	// GitCommitLogs with
+	GitCommitLogs []git.CommitLog
+	// UserHomeDir is the home direcotry path of the current user
+	UserHomeDir string
+	// Type is the specified type flag
+	Type string
+	// Release specific values
+	ReleaseTag    string
+	ReleaseTarget string
 }
 
 // NewTextTemplateValues returns a new pointer instance of TextTemplateValues with default values

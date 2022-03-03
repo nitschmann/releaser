@@ -52,6 +52,12 @@ func withCustomFlagsForCommit() cmdOption {
 	}
 }
 
+func withCustomFlagsForRelease() cmdOption {
+	return func(cmd *cobra.Command) {
+		assignFlagsToCmd(cmd, config.GetFlagsForRelease())
+	}
+}
+
 func withGitExecutableFlag() cmdOption {
 	return func(cmd *cobra.Command) {
 		cmd.Flags().StringP(gitExecutableFlagName, "g", config.Git.GetExecutable(), "Git executable")

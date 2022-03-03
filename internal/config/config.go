@@ -37,6 +37,16 @@ var (
 	// Git config default values
 	GitExecutableDefault string = "git"
 	GitRemoteDefault     string = "origin"
+	// Release config default values
+	ReleaseFirstTagDefault          string = "v0.0.1"
+	ReleaseNameFormatDefault        string = "Release {{ .ReleaseTag }} ({{ .DTYear }}-{{ .DTMonth }}-{{ .DTDay }})"
+	ReleaseDescriptionFormatDefault string = `
+## Changelog
+
+{{range _, $commitLog := .GitCommitLogs}}
+* {{ .$commitLog.Message }}
+{{end}}`
+	ReleaseTargetDefault string = "master"
 )
 
 // Config has all the relevant settings
@@ -47,6 +57,8 @@ type Config struct {
 	Branch Branch `mapstructure:"branch" yaml:"branch" validate:"required,dive"`
 	// Commit specific config fields
 	Commit Commit `mapstructure:"commit" yaml:"commit" validate:"required,dive"`
+	// Release specific config fields
+	Release Release `mapstructure:"release" yaml:"release" validate:"required,dive"`
 	// Flags specify custom flags for commands
 	Flags []Flag `mapstructure:"flags" yaml:"flags" validate:"dive"`
 }
@@ -54,10 +66,11 @@ type Config struct {
 // New returns an new instance of Config with default values
 func New() Config {
 	return Config{
-		Git:    newGit(),
-		Branch: newBranch(),
-		Commit: newCommit(),
-		Flags:  []Flag{},
+		Git:     newGit(),
+		Branch:  newBranch(),
+		Commit:  newCommit(),
+		Release: newRelease(),
+		Flags:   []Flag{},
 	}
 }
 

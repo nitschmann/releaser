@@ -70,6 +70,15 @@ func withPromptAutoYesFlag() cmdOption {
 	}
 }
 
+func withReleaseFlags() cmdOption {
+	return func(cmd *cobra.Command) {
+		cmd.Flags().String("first-tag", config.Release.GetFirstTag(), "First tag if none is present yet")
+		cmd.Flags().String("git-remote", config.Git.GetRemote(), "Git remote")
+		cmd.Flags().String("tag", "", "Specific new tag of the release")
+		cmd.Flags().String("target", config.Release.GetTarget(), "Target (branch / commit) of the release")
+	}
+}
+
 func withTypeFlag(required bool) cmdOption {
 	return func(cmd *cobra.Command) {
 		cmd.Flags().StringP(typeFlagName, "t", "", "Specify explicit type")

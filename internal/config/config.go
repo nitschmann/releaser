@@ -43,8 +43,8 @@ var (
 	ReleaseDescriptionFormatDefault string = `
 ## Changelog
 
-{{range _, $commitLog := .GitCommitLogs}}
-* {{ .$commitLog.Message }}
+{{range .GitCommitLogs -}}
+* {{ .Message }}
 {{end}}`
 	ReleaseTargetDefault string = "master"
 )

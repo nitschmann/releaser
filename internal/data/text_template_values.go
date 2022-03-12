@@ -2,6 +2,7 @@ package data
 
 import (
 	"bytes"
+	"fmt"
 	"os"
 	"strconv"
 	"strings"
@@ -47,16 +48,20 @@ func NewTextTemplateValues() *TextTemplateValues {
 	dateTime := time.Now()
 	userHomeDir, _ := os.UserHomeDir()
 
-	return &TextTemplateValues{
+	obj := &TextTemplateValues{
 		DTYear:      strconv.Itoa(dateTime.Year()),
 		DTMonth:     strconv.Itoa(int(dateTime.Month())),
-		DTDay:       strconv.Itoa(dateTime.Day()),
-		DTHour:      strconv.Itoa(dateTime.Hour()),
-		DTMinute:    strconv.Itoa(dateTime.Minute()),
-		DTSecond:    strconv.Itoa(dateTime.Second()),
 		Flags:       make(map[string]string),
 		UserHomeDir: userHomeDir,
 	}
+
+	obj.DTMonth = obj.dateNumberStringWithPad(int(dateTime.Month()))
+	obj.DTDay = obj.dateNumberStringWithPad(dateTime.Day())
+	obj.DTHour = strconv.Itoa(dateTime.Hour())
+	obj.DTMinute = obj.dateNumberStringWithPad(dateTime.Minute())
+	obj.DTSecond = obj.dateNumberStringWithPad(dateTime.Second())
+
+	return obj
 }
 
 // AddFlag addes or overwrites an new entry into the Flag field under the given key
@@ -87,4 +92,8 @@ func (ttv *TextTemplateValues) ParseTemplateString(templateStr string) (string, 
 	}
 
 	return buf.String(), nil
+}
+
+func (ttv *TextTemplateValues) dateNumberStringWithPad(num int) string {
+	return fmt.Sprintf("%02d", num)
 }

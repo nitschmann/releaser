@@ -13,6 +13,8 @@ type Remote interface {
 	GetHttpURL(name string) (string, error)
 	// GetProject returns the project part of the remote remote URL
 	GetProject(name string) (string, error)
+	// GetProjectByHttpURL extracts the project name of a given repo HTTP url
+	GetProjectByHttpURL(httpURL string) (string, error)
 	// GetURL returns the URL of the given remote name
 	GetURL(name string) (*url.URL, error)
 }
@@ -42,21 +44,21 @@ func (r remote) GetHttpURL(name string) (string, error) {
 }
 
 func (r remote) GetProject(name string) (string, error) {
-	var project string
-
 	httpURL, err := r.GetHttpURL(name)
 	if err != nil {
-		return project, err
+		return "", err
 	}
 
+	return r.GetProjectByHttpURL(httpURL)
+}
+
+func (r remote) GetProjectByHttpURL(httpURL string) (string, error) {
 	url, err := url.Parse(httpURL)
 	if err != nil {
-		return project, err
+		return "", err
 	}
 
-	project = strings.TrimPrefix(url.Path, "/")
-
-	return project, nil
+	return strings.TrimPrefix(url.Path, "/"), nil
 }
 
 func (r remote) GetURL(name string) (*url.URL, error) {

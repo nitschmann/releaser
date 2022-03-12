@@ -43,8 +43,8 @@ func (c commit) New(message string) error {
 func (c commit) LogsBetweenVersions(versionA, versionB string) ([]CommitLog, error) {
 	var logs []CommitLog
 
-	formatStr := `'format:{"%H" "message":"%s" "timestamp":%at}'`
-	gitCmdArgs := []string{"log", "--online", fmt.Sprintf("--pretty=%s", formatStr)}
+	formatStr := `format:{"hash":"%H","message":"%s","timestamp":"%at"}`
+	gitCmdArgs := []string{"log", "--oneline", fmt.Sprintf("--pretty='%s'", formatStr)}
 
 	if versionA != "" && versionB != "" {
 		gitCmdArgs = append(gitCmdArgs, fmt.Sprintf("%s..%s", versionA, versionB))
@@ -58,6 +58,10 @@ func (c commit) LogsBetweenVersions(versionA, versionB string) ([]CommitLog, err
 	gitCommitLogs := cleanEmptyEntriesFromStringSlice(strings.Split(gitCommitLogsStr, "\n"))
 	for _, gitCommitLog := range gitCommitLogs {
 		var log CommitLog
+
+		gitCommitLog = strings.TrimPrefix(gitCommitLog, "'")
+		gitCommitLog = strings.TrimPrefix(gitCommitLog, "format:")
+		gitCommitLog = strings.TrimSuffix(gitCommitLog, "'")
 
 		err = json.Unmarshal([]byte(gitCommitLog), &log)
 		if err != nil {

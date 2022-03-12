@@ -39,6 +39,10 @@ func getCustomFlagValuesForCommit(cmd *cobra.Command) (map[string]string, error)
 	return getCustomFlagValues(config.GetFlagsForCommit(), cmd)
 }
 
+func getCustomFlagValuesForRelease(cmd *cobra.Command) (map[string]string, error) {
+	return getCustomFlagValues(config.GetFlagsForRelease(), cmd)
+}
+
 func getGitExecutableByFlag(cmd *cobra.Command) (string, error) {
 	return cmd.Flags().GetString(gitExecutableFlagName)
 }

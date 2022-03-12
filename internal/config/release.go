@@ -2,10 +2,11 @@ package config
 
 // Release has release specific config settings
 type Release struct {
-	FirstTag          *string `mapstructure:"first_tag" yaml:"first_tag" validate:"required"`
-	Target            *string `mapstructure:"target" yaml:"target" validate:"required"`
-	NameFormat        *string `mapstructure:"name_format" yaml:"name_format" validate:"required"`
 	DescriptionFormat *string `mapstructure:"description_format" yaml:"description_format" validate:"required"`
+
+	NameFormat *string `mapstructure:"name_format" yaml:"name_format" validate:"required"`
+	FirstTag   *string `mapstructure:"first_tag" yaml:"first_tag" validate:"required"`
+	Target     *string `mapstructure:"target" yaml:"target" validate:"required"`
 }
 
 func newRelease() Release {

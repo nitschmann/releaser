@@ -37,6 +37,11 @@ if ! contains_element ${given_arch} "${supported_architecture[@]}"; then
   exit 1
 fi
 
+if [ "$command" == "latest" ] && [ -z "$version" ]; then
+  version=$(go run cmd/releaselog/main.go release release latest-tag)
+  version="${version:-v0.0.1}"
+fi
+
 if [ "$command" == "new-version" ] && [ -z "$version" ]; then
   version=$(go run cmd/releaser/main.go release new tag)
 fi

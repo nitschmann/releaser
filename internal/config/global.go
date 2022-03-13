@@ -47,10 +47,11 @@ func (g Global) GetConfigWithPresentProjectValues(project *Project) Config {
 			Types:              helper.StringSliceWithValuesOrBackup(project.Commit.Types, g.Commit.GetTypes()),
 		},
 		Release: Release{
-			FirstTag:      helper.StringPointerOrBackup(project.Release.FirstTag, g.Release.GetFirstTag()),
+			FirstTag:          helper.StringPointerOrBackup(project.Release.FirstTag, g.Release.GetFirstTag()),
 			Target:            helper.StringPointerOrBackup(project.Release.Target, g.Release.GetTarget()),
 			NameFormat:        helper.StringPointerOrBackup(project.Release.NameFormat, g.Release.GetNameFormat()),
 			DescriptionFormat: helper.StringPointerOrBackup(project.Release.DescriptionFormat, g.Release.GetDescriptionFormat()),
+			Upstreams:         g.Release.GetUpstreams(),
 		},
 		Git: Git{
 			Executable: helper.StringPointerOrBackup(project.Git.Executable, g.Git.GetExecutable()),

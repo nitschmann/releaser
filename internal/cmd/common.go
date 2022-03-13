@@ -53,7 +53,10 @@ func getTypeByFlag(cmd *cobra.Command) (string, error) {
 
 func printCLIErrorAndExit(err error) {
 	switch e := err.(type) {
-	case *apperror.ConfigValidationErrors, *apperror.InvalidFlagValueError, *apperror.InvalidFlagError:
+	case *apperror.ConfigValidationErrors,
+		*apperror.InvalidFlagValueError,
+		*apperror.InvalidFlagError,
+		*apperror.InvalidUpstreamNameError:
 		fmt.Println(err.Error())
 	case *apperror.PromptAbortError:
 		fmt.Printf("%s\n", err.Error())

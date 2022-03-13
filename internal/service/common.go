@@ -13,7 +13,7 @@ import (
 func PromptYesOrNoWithExpectedYes(promptMsg string) error {
 	fmt.Print(promptMsg)
 	prompt := promptui.Select{
-		// Label: promptMsg,
+		Label: promptMsg,
 		Items: []string{"Yes", "No"},
 	}
 

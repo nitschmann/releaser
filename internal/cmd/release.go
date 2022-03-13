@@ -15,6 +15,7 @@ func newReleaseCmd() *cobra.Command {
 
 	cmd.AddCommand(newReleaseLatestTagCmd())
 	cmd.AddCommand(newReleaseNewCmd())
+	cmd.AddCommand(newReleasePublishCmd())
 
 	return cmd
 }

@@ -61,7 +61,7 @@ func newReleaseNewCmd() *cobra.Command {
 
 					// service
 					releaseService := release.NewGenerateService(git.New(gitExecutable))
-					r, err := releaseService.Call(
+					releaseObj, err := releaseService.Call(
 						ctx,
 						config,
 						templateValues,
@@ -77,19 +77,19 @@ func newReleaseNewCmd() *cobra.Command {
 					}
 
 					if jsonOnly {
-						releaseJSON, err := json.Marshal(r)
+						releaseJSON, err := json.Marshal(releaseObj)
 						if err != nil {
 							return err
 						}
 
 						fmt.Println(string(releaseJSON))
 					} else {
-						fmt.Println("Repository URL: " + r.RepoHttpURL)
-						fmt.Println("Target: " + r.Target)
-						fmt.Println("Tag: " + r.Tag)
-						fmt.Println("Name: " + r.Name)
+						fmt.Println("Repository URL: " + releaseObj.RepoHttpURL)
+						fmt.Println("Target: " + releaseObj.Target)
+						fmt.Println("Tag: " + releaseObj.Tag)
+						fmt.Println("Name: " + releaseObj.Name)
 						fmt.Println("Description:")
-						fmt.Println("\n" + r.Description)
+						fmt.Println("\n" + releaseObj.Description)
 					}
 
 					return nil

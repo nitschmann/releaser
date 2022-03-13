@@ -51,7 +51,7 @@ func (g Global) GetConfigWithPresentProjectValues(project *Project) Config {
 			Target:            helper.StringPointerOrBackup(project.Release.Target, g.Release.GetTarget()),
 			NameFormat:        helper.StringPointerOrBackup(project.Release.NameFormat, g.Release.GetNameFormat()),
 			DescriptionFormat: helper.StringPointerOrBackup(project.Release.DescriptionFormat, g.Release.GetDescriptionFormat()),
-			Upstreams:         g.Release.GetUpstreams(),
+			Upstreams:         g.getReleaseUpstreams(project),
 		},
 		Git: Git{
 			Executable: helper.StringPointerOrBackup(project.Git.Executable, g.Git.GetExecutable()),
@@ -87,4 +87,12 @@ func Load() (*Global, error) {
 	}
 
 	return globalConfig, nil
+}
+
+func (g Global) getReleaseUpstreams(project *Project) map[string]ReleaseUpstream {
+	if len(project.Release.Upstreams) > 0 {
+		return project.Release.Upstreams
+	}
+
+	return g.Release.Upstreams
 }

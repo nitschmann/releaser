@@ -1,3 +1,6 @@
 .releaser/config.yaml
 
 .env
+
+.build/*
+!.build/.keep

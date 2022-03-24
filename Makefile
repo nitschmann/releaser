@@ -22,6 +22,7 @@ build-latest-darwin-amd64:
 	$(LATEST_DARWIN_BUILD) amd64
 
 .PHONY: build-latest-darwin-arm64
+build-latest-darwin-arm64:
 	$(LATEST_DARWIN_BUILD) arm64
 
 .PHONY: build-latest-linux

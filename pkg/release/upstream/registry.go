@@ -1,6 +1,9 @@
 package upstream
 
-import "github.com/nitschmann/releaser/pkg/release/upstream/github"
+import (
+	"github.com/nitschmann/releaser/pkg/release/upstream/github"
+	"github.com/nitschmann/releaser/pkg/release/upstream/gitlab"
+)
 
 var r Registry
 
@@ -13,6 +16,7 @@ func init() {
 	r = NewRegistry()
 	// Register all upstreams here
 	r.add("github", github.New())
+	r.add("gitlab", gitlab.New())
 }
 
 // GetRegistry returns the current and globaly available Registry instance

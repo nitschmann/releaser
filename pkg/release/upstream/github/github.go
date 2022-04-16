@@ -11,18 +11,20 @@ import (
 	"github.com/nitschmann/releaser/pkg/release"
 )
 
-const tokenEnvVar string = "GITHUB_API_TOKEN"
+// DefaultTokenEnvVar is the default ENV variable name which holds the API token
+const DefaultTokenEnvVar string = "GITHUB_API_TOKEN"
 
-// Github upstream for releaser (also support GitHub enterprise)
+// Github upstream for releaser (also supports GitHub enterprise)
 type Github struct{}
 
+// New instance of Github
 func New() Github {
 	return Github{}
 }
 
 // APITokenEnvVar specifies which ENV var holds the API token for the GitHub upstream
 func (g Github) APITokenEnvVar() string {
-	return tokenEnvVar
+	return DefaultTokenEnvVar
 }
 
 // Publish the release to GitHub

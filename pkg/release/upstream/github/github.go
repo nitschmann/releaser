@@ -3,7 +3,6 @@ package github
 import (
 	"context"
 	"net/url"
-	"strings"
 
 	"github.com/google/go-github/v43/github"
 	"golang.org/x/oauth2"
@@ -43,10 +42,6 @@ func (g Github) Publish(
 		return nil, err
 	}
 
-	ownerAndRepo := strings.Split(r.RepoName, "/")
-	owner := ownerAndRepo[0]
-	repo := ownerAndRepo[1]
-
 	var client *github.Client
 	if repoURL.Hostname() == "github.com" {
 		client = github.NewClient(tc)
@@ -69,6 +64,7 @@ func (g Github) Publish(
 		Prerelease:      &r.IsPreRelease,
 	}
 
+	owner, repo := r.OwnerAndRepo()
 	githubRelease, _, err := client.Repositories.CreateRelease(ctx, owner, repo, releaseData)
 	if err != nil {
 		return nil, err

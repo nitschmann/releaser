@@ -1,5 +1,7 @@
 package release
 
+import "strings"
+
 // Release data structure to be used in upstreams
 type Release struct {
 	// Description (changelog) of the the release
@@ -17,4 +19,11 @@ type Release struct {
 
 	IsDraft      bool `json:"is_draft"`
 	IsPreRelease bool `json:"is_pre_release"`
+}
+
+// OwnerAndRepo returns the owner and repository name based on the RepoName field of the Release
+func (r Release) OwnerAndRepo() (string, string) {
+	ownerAndRepo := strings.Split(r.RepoName, "/")
+
+	return ownerAndRepo[0], ownerAndRepo[1]
 }

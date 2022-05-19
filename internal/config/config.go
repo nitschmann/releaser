@@ -23,11 +23,11 @@ var (
 	// Branch config default values
 	BranchAllowedWithoutTypeDefault bool     = true
 	BranchDelimiterDefault          string   = "-"
-	BranchNameFormatDefault         string   = "{{if .Type}}{{ .Type }}{{end}} {{ .BranchName }}"
+	BranchNameFormatDefault         string   = "{{if .Type}}{{ .Type }} {{end}}{{ .BranchName }}"
 	BranchTypesDefault              []string = []string{"bug", "feature", "fix", "hotfix"}
 	// Commit config default values
 	CommitAllowedWithoutTypeDefault bool     = true
-	CommitMessageFormatDefault      string   = "{{if .Type}}{{ .Type | ToTitle }}:{{end}} {{ .CommitMessage }}"
+	CommitMessageFormatDefault      string   = "{{if .Type}}{{ .Type | ToTitle }}: {{end}}{{ .CommitMessage }}"
 	CommitTypesDefault              []string = []string{"adjustment", "bug", "feature", "fix", "hotfix"}
 	// Flag config default values
 	FlagRequiredDefault       bool = false

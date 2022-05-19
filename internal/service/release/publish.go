@@ -97,8 +97,8 @@ func (s *publishService) getAPITokenByEnv(
 }
 
 func (s *publishService) printReleaseConfirm(releaseObj *release.Release) error {
-	fmt.Println("--- Release Summary:\n")
-	fmt.Println("Repository URL: " + releaseObj.RepoHttpURL)
+	fmt.Println("--- Release Summary:")
+	fmt.Println("\nRepository URL: " + releaseObj.RepoHttpURL)
 	fmt.Println("Target: " + releaseObj.Target)
 	fmt.Println("Tag: " + releaseObj.Tag)
 	fmt.Println("Name: " + releaseObj.Name)

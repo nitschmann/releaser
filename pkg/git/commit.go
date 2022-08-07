@@ -43,7 +43,7 @@ func (c commit) New(message string) error {
 func (c commit) LogsBetweenVersions(versionA, versionB string) ([]CommitLog, error) {
 	var logs []CommitLog
 
-	formatStr := `format:{"hash":"%H","message":"%q","timestamp":"%at"}`
+	formatStr := `format:{"hash":"%H","message":"%s","timestamp":"%at"}`
 	gitCmdArgs := []string{"log", "--oneline", fmt.Sprintf("--pretty='%s'", formatStr)}
 
 	if versionA != "" && versionB != "" {

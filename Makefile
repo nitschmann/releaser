@@ -8,9 +8,6 @@ NEW_VERSION_BUILD=$(LOCAL_BUILD) new-version
 NEW_VERSION_BUILD_DARWIN=$(NEW_VERSION_BUILD) darwin
 NEW_VERSION_BUILD_LINUX=$(NEW_VERSION_BUILD) linux
 
-run-tests:
-	./scripts/run-tests $(path)
-
 .PHONY: build-latest
 build-latest: build-latest-darwin build-latest-linux
 
@@ -77,5 +74,30 @@ build-new-version-linux-arm64:
 	$(NEW_VERSION_BUILD_LINUX) arm64
 
 .PHONY: clean-build
+# Clean ./build folder
 clean-build:
 	rm -rf .build/releaser*
+
+.PHONY: run-tests
+# Run the tests locally on the machine
+run-tests:
+	./scripts/run-tests $(path)
+
+TEST_CMD = go test -parallel=4 -v -cover -race ./...
+
+.PHONY: test
+test:
+	docker-compose build --pull dev
+		docker-compose run --rm dev \
+		sh -c '${TEST_CMD}'
+
+lint:
+	@echo "==> Running golint..."
+	docker-compose build --pull dev
+		docker-compose run --rm dev \
+		sh -c 'golangci-lint --deadline 2m run'
+
+.PHONY: down
+# Kill and remove the local docker-compose containers
+down:
+	docker-compose down --remove-orphans --volumes

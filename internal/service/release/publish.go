@@ -91,6 +91,10 @@ func (s *publishService) getAPITokenByEnv(
 		envVarName = upstream.APITokenEnvVar()
 	}
 
+	if envVarName == "" {
+		return apiToken, apperror.NewMissingUpstreamAPITokenEnvVarError(upstreamName)
+	}
+
 	apiToken = os.Getenv(envVarName)
 
 	return apiToken, nil

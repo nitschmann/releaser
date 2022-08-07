@@ -56,7 +56,8 @@ func printCLIErrorAndExit(err error) {
 	case *apperror.ConfigValidationErrors,
 		*apperror.InvalidFlagValueError,
 		*apperror.InvalidFlagError,
-		*apperror.InvalidUpstreamNameError:
+		*apperror.InvalidUpstreamNameError,
+		*apperror.MissingUpstreamAPITokenEnvVarError:
 		fmt.Println(err.Error())
 	case *apperror.PromptAbortError:
 		fmt.Printf("%s\n", err.Error())

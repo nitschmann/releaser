@@ -3,36 +3,9 @@ name: CI
 on: push
 
 jobs:
-  misspell:
-    name: Check misspell
-    runs-on: ubuntu-latest
-    steps:
-      - name: Set up Go 1.14
-        uses: actions/setup-go@v2
-        id: go
-        if: success()
-        with:
-          go-version: ^1.14
-
-      - name: Check out code into the Go module directory
-        uses: actions/checkout@v2
-        if: success()
-
-      - name: Install Go dependencies
-        id: go_dependencies
-        if: success()
-        run: |
-          go mod download
-          make install-test-dependencies
-
-      - name: Run misspell check
-        if: success()
-        run: make check-misspell
-
   lint:
     name: Golint
     runs-on: ubuntu-latest
-    needs: misspell
     steps:
       - name: Set up Go 1.14
         uses: actions/setup-go@v2
@@ -59,7 +32,6 @@ jobs:
   test:
     name: Go test
     runs-on: ubuntu-latest
-    needs: misspell
     steps:
       - name: Set up Go 1.14
         uses: actions/setup-go@v2

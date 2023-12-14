@@ -30,11 +30,13 @@ fi
 
 architecture=""
 case $(uname -m) in
+    aarch)   architecture="arm";;
+    aarch64) architecture="arm64";;
+    arm)    dpkg --print-architecture | grep -q "arm64" && architecture="arm64" || architecture="arm";;
+    arm64)  architecture="arm64";;
     i386)   architecture="386";;
     i686)   architecture="386";;
     x86_64) architecture="amd64";;
-    arm64)  architecture="arm64";;
-    arm)    dpkg --print-architecture | grep -q "arm64" && architecture="arm64" || architecture="arm";;
 esac
 
 if ! contains_element ${architecture} "${supported_architecture[@]}"; then

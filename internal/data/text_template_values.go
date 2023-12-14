@@ -32,7 +32,7 @@ type TextTemplateValues struct {
 	GitRemote      string
 	GitRepoHttpURL string
 	GitRepoName    string
-	// GitCommitLogs with
+	// GitCommitLogs with information about a single commit
 	GitCommitLogs []git.CommitLog
 	// UserHomeDir is the home direcotry path of the current user
 	UserHomeDir string

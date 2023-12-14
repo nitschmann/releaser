@@ -24,6 +24,9 @@ type Release struct {
 // OwnerAndRepo returns the owner and repository name based on the RepoName field of the Release
 func (r Release) OwnerAndRepo() (string, string) {
 	ownerAndRepo := strings.Split(r.RepoName, "/")
+	if len(ownerAndRepo) == 2 {
+		return ownerAndRepo[0], ownerAndRepo[1]
+	}
 
-	return ownerAndRepo[0], ownerAndRepo[1]
+	return "", ""
 }

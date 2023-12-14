@@ -46,7 +46,7 @@ var (
 {{range .GitCommitLogs -}}
 * {{ .Message }}
 {{end}}`
-	ReleaseTargetDefault string = "master"
+	ReleaseTargetDefault string = "main"
 )
 
 // Config has all the relevant settings

@@ -1,7 +1,6 @@
 package git
 
 import (
-	"encoding/json"
 	"fmt"
 	"strings"
 )
@@ -17,9 +16,15 @@ type Commit interface {
 
 // CommitLog is the data structure for a log of a git commit
 type CommitLog struct {
-	Hash      string `json:"hash"`
-	Message   string `json:"message"`
-	Timestamp string `json:"timestamp"`
+	// Author (name) of the commit
+	Author string
+	// AuthorEmail of the commit
+	AuthorEmail string
+	// Hash to identify the commit
+	Hash string
+	// Message of the commit
+	Message   string
+	Timestamp string
 }
 
 type commit struct {
@@ -43,7 +48,7 @@ func (c commit) New(message string) error {
 func (c commit) LogsBetweenVersions(versionA, versionB string) ([]CommitLog, error) {
 	var logs []CommitLog
 
-	formatStr := `format:{"hash":"%H","message":"%s","timestamp":"%at"}`
+	formatStr := `format:'%H' + '%s' + '%at' + '%an' + '%ae'`
 	gitCmdArgs := []string{"log", "--oneline", fmt.Sprintf("--pretty='%s'", formatStr)}
 
 	if versionA != "" && versionB != "" {
@@ -56,20 +61,33 @@ func (c commit) LogsBetweenVersions(versionA, versionB string) ([]CommitLog, err
 	}
 
 	gitCommitLogs := cleanEmptyEntriesFromStringSlice(strings.Split(gitCommitLogsStr, "\n"))
+
 	for _, gitCommitLog := range gitCommitLogs {
 		var log CommitLog
 
-		gitCommitLog = strings.TrimPrefix(gitCommitLog, "'")
+		gitCommitLog = c.removeStringSurroundingSingleQuotes(gitCommitLog)
 		gitCommitLog = strings.TrimPrefix(gitCommitLog, "format:")
-		gitCommitLog = strings.TrimSuffix(gitCommitLog, "'")
 
-		err = json.Unmarshal([]byte(gitCommitLog), &log)
-		if err != nil {
-			return logs, err
+		gitCommitLogParts := strings.Split(gitCommitLog, " + ")
+		for i, v := range gitCommitLogParts {
+			gitCommitLogParts[i] = c.removeStringSurroundingSingleQuotes(v)
 		}
+
+		log.Hash = gitCommitLogParts[0]
+		log.Message = gitCommitLogParts[1]
+		log.Timestamp = gitCommitLogParts[2]
+		log.Author = gitCommitLogParts[3]
+		log.AuthorEmail = gitCommitLogParts[4]
 
 		logs = append(logs, log)
 	}
 
 	return logs, nil
+}
+
+func (c commit) removeStringSurroundingSingleQuotes(str string) string {
+	str = strings.TrimPrefix(str, "'")
+	str = strings.TrimSuffix(str, "'")
+
+	return str
 }

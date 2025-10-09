@@ -11,7 +11,7 @@ contains_element () {
 }
 
 # --- Support lists
-supported_command=( latest new-version )
+supported_command=( latest local new-version )
 supported_os=( darwin linux )
 supported_architecture=( 386 amd64 arm arm64 )
 
@@ -31,15 +31,18 @@ if ! contains_element ${given_os} "${supported_os[@]}"; then
   exit 1
 fi
 
-
 if ! contains_element ${given_arch} "${supported_architecture[@]}"; then
   echo "Given arch is not supported!"
   exit 1
 fi
 
 if [ "$command" == "latest" ] && [ -z "$version" ]; then
-  version=$(go run cmd/releaselog/main.go release release latest-tag)
-  version="${version:-v0.0.1}"
+  version=$(go run cmd/releaser/main.go release latest-tag)
+  version="${version:v0.0.1}"
+fi
+
+if [ "$command" == "local" ] && [ -z "$version" ]; then
+  version="v_local_$(date +%Y%m%d%H%M%S)"
 fi
 
 if [ "$command" == "new-version" ] && [ -z "$version" ]; then
@@ -49,6 +52,9 @@ fi
 executable_name="releaser-$given_os-$given_arch"
 output_path="./.build/$executable_name"
 package_path="./cmd/releaser/main.go"
+
+# Ensure build output directory exists
+mkdir -p ./.build
 
 env CGO_ENABLED=0 \
   GOOS=$given_os \

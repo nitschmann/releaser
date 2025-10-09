@@ -64,9 +64,7 @@ func NewRootCmd() *RootCmd {
 		Use:   "releaser",
 		Short: "CLI tool for smart and rule based Git branch, commit and release log management",
 		Long: `
-releaser is CLI tool which allows you to manage Git branch and commit naming structures based on rule
-configurations for paths. It helps to create and publish useful and well-managed releases with
-their corresponding logs.`,
+releaser is a CLI to standardize Git branches, commit messages, and release notes across projects. It generates consistent names from templates, validates inputs, and can publish releases to upstreams like GitHub/GitLab.`,
 		SilenceUsage:  true,
 		SilenceErrors: true,
 		RunE: func(cmd *cobra.Command, args []string) error {

@@ -1,0 +1,79 @@
+name: Release
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    if: ${{ !github.event.release.prerelease }}
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: "1.25"
+
+      - name: Download dependencies
+        run: go mod download
+
+      - name: Build all binaries
+        env:
+          VERSION: ${{ github.event.release.tag_name }}
+        run: make build-latest
+
+      - name: Upload Linux amd64
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./.build/releaser-linux-amd64
+          asset_name: releaser-linux-amd64
+          asset_content_type: application/octet-stream
+
+      - name: Upload Linux arm64
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./.build/releaser-linux-arm64
+          asset_name: releaser-linux-arm64
+          asset_content_type: application/octet-stream
+
+      - name: Upload Linux 386
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./.build/releaser-linux-386
+          asset_name: releaser-linux-386
+          asset_content_type: application/octet-stream
+
+      - name: Upload Darwin amd64
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./.build/releaser-darwin-amd64
+          asset_name: releaser-darwin-amd64
+          asset_content_type: application/octet-stream
+
+      - name: Upload Darwin arm64
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./.build/releaser-darwin-arm64
+          asset_name: releaser-darwin-arm64
+          asset_content_type: application/octet-stream

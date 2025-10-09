@@ -84,6 +84,12 @@ run-tests:
 	./scripts/run-tests $(path)
 
 TEST_CMD = go test -parallel=4 -v -cover -race ./...
+.PHONY: docs
+docs:
+	@echo "==> Generating CLI docs..."
+	$(GOCMD) run ./tools/gendocs
+	@echo "==> Docs generated into docs/cli/"
+
 
 .PHONY: test
 test:

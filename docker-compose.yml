@@ -4,5 +4,8 @@ services:
   dev:
     build:
       context: .
+      target: builder
     volumes:
       - ./:/src
+    working_dir: /src
+    command: ["bash"]

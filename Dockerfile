@@ -1,8 +1,8 @@
-FROM golang:1.18-alpine AS base
+FROM golang:1.25-alpine AS base
 
-RUN apk add --upgrade bash git g++ gcc make
+RUN apk add --no-cache --upgrade bash git g++ gcc make curl
 
-RUN wget -O- -nv https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s v1.45.2
+RUN curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b /usr/local/bin v1.59.1
 
 FROM base AS builder
 

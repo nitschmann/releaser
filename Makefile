@@ -91,11 +91,16 @@ test:
 		docker-compose run --rm dev \
 		sh -c '${TEST_CMD}'
 
+.PHONY: lint lint-docker lint-local
 lint:
-	@echo "==> Running golint..."
+	@echo "==> Running golint (local)..."
+	golangci-lint run --timeout 2m
+
+lint-docker:
+	@echo "==> Running golint (docker)..."
 	docker-compose build --pull dev
 		docker-compose run --rm dev \
-		sh -c 'golangci-lint --deadline 2m run'
+		sh -c 'go mod download && golangci-lint run --timeout 2m --tests=false --modules-download-mode=mod'
 
 .PHONY: down
 # Kill and remove the local docker-compose containers

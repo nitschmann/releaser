@@ -40,7 +40,7 @@ func (s *generateServiceTestSuite) defaultTextTemplateValues() *data.TextTemplat
 }
 
 func (s *generateServiceTestSuite) defaultSerivce() branch.GenerateService {
-	return branch.NewGenerateService(s.git)
+	return branch.NewGenerateService(&s.git)
 }
 
 func (s *generateServiceTestSuite) TestCall() {
@@ -152,5 +152,84 @@ func (s *generateServiceTestSuite) TestCall() {
 
 		s.NoError(err)
 		s.Equal(branchName, fmt.Sprintf("issue-%s-%s-%s", customIssue, customBranchType, "endpoint"))
+	})
+}
+
+func (s *generateServiceTestSuite) TestCall_Sanitization() {
+	ctx := context.TODO()
+
+	s.Run("replaces invalid characters with delimiter", func() {
+		delimiter := "-"
+		branchNameFormat := "{{ .BranchName }}"
+
+		cfg := s.defaultConfig()
+		cfg.Branch.Delimiter = &delimiter
+		cfg.Branch.NameFormat = &branchNameFormat
+
+		textTemplateValues := s.defaultTextTemplateValues()
+		flags := s.defaultFlags()
+
+		branchName, err := s.defaultSerivce().Call(
+			ctx,
+			cfg,
+			textTemplateValues,
+			flags,
+			"Feat: API?[v2]",
+			"",
+			false,
+		)
+
+		s.NoError(err)
+		s.Equal("feat-api-v2", branchName)
+	})
+
+	s.Run("removes forbidden sequences and suffixes", func() {
+		delimiter := "-"
+		branchNameFormat := "{{ .BranchName }}"
+
+		cfg := s.defaultConfig()
+		cfg.Branch.Delimiter = &delimiter
+		cfg.Branch.NameFormat = &branchNameFormat
+
+		textTemplateValues := s.defaultTextTemplateValues()
+		flags := s.defaultFlags()
+
+		branchName, err := s.defaultSerivce().Call(
+			ctx,
+			cfg,
+			textTemplateValues,
+			flags,
+			"fix..path@{end}.lock",
+			"",
+			false,
+		)
+
+		s.NoError(err)
+		s.Equal("fix-path-end", branchName)
+	})
+
+	s.Run("trims leading and trailing delimiters and slashes", func() {
+		delimiter := "-"
+		branchNameFormat := "{{ .BranchName }}"
+
+		cfg := s.defaultConfig()
+		cfg.Branch.Delimiter = &delimiter
+		cfg.Branch.NameFormat = &branchNameFormat
+
+		textTemplateValues := s.defaultTextTemplateValues()
+		flags := s.defaultFlags()
+
+		branchName, err := s.defaultSerivce().Call(
+			ctx,
+			cfg,
+			textTemplateValues,
+			flags,
+			"/.//New  Feature//",
+			"",
+			false,
+		)
+
+		s.NoError(err)
+		s.Equal("new-feature", branchName)
 	})
 }

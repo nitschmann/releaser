@@ -1,5 +1,7 @@
 # releaser
 
+> IMPORTANT: This is a legacy branch kept as a backup of the historical implementation. For the latest stable backup snapshot of this line, see [v0.0.19 release](https://github.com/nitschmann/releaser/releases/tag/v0.0.19). New development may have moved to other branches.
+
 Is a CLI tool that allows you to manage branch and commit naming structures based on certain configurations under paths. It helps to create and publish useful and well-managed releases with their corresponding logs.
 
 It uses native `git` commands wrapped within a Golang application. Various binaries for Mac and Linux are shipped as well.

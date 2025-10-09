@@ -38,7 +38,7 @@ fi
 
 if [ "$command" == "latest" ] && [ -z "$version" ]; then
   version=$(go run cmd/releaser/main.go release latest-tag)
-  version="${version:v0.0.1}"
+  version="${version:-v0.0.1}"
 fi
 
 if [ "$command" == "local" ] && [ -z "$version" ]; then

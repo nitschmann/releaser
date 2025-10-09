@@ -17,6 +17,37 @@ A CLI to standardize Git branches, commit messages, and release notes across pro
 
 ## Install
 
+### Option 1: Prebuilt binaries (Releases)
+
+Download the latest binary for your platform from the [Releases](https://github.com/nitschmann/releaser/releases/latest) page.
+
+Example (macOS arm64):
+
+```bash
+curl -L -o releaser https://github.com/nitschmann/releaser/releases/latest/download/releaser-darwin-arm64
+chmod +x releaser
+sudo mv releaser /usr/local/bin/
+releaser version
+```
+
+Example (Linux amd64):
+
+```bash
+curl -L -o releaser https://github.com/nitschmann/releaser/releases/latest/download/releaser-linux-amd64
+chmod +x releaser
+sudo mv releaser /usr/local/bin/
+releaser version
+```
+
+### Option 2: Install script (fetches latest release)
+
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/nitschmann/releaser/master/scripts/install.sh)"
+releaser version
+```
+
+### Option 3: Build from source
+
 Build locally and place the binary on your PATH:
 
 ```bash

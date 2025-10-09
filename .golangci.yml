@@ -1,0 +1,30 @@
+version: 2
+
+run:
+  timeout: 2m
+  tests: true
+  modules-download-mode: mod
+
+linters-settings:
+  errcheck:
+    check-type-assertions: true
+    check-blank: true
+  staticcheck:
+    checks: ["all"]
+
+linters:
+  enable:
+    - errcheck
+    - govet
+    - staticcheck
+    - unused
+  disable:
+    - funlen
+    - godox
+    - gocyclo
+
+issues:
+  exclude-use-default: false
+  max-issues-per-linter: 0
+  max-same-issues: 0
+

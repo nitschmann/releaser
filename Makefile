@@ -106,7 +106,7 @@ lint-docker:
 	@echo "==> Running golint (docker)..."
 	docker-compose build --pull dev
 		docker-compose run --rm dev \
-		sh -c 'go mod download && golangci-lint run --timeout 2m --tests=false --modules-download-mode=mod'
+		sh -c 'go mod download && golangci-lint run --timeout 2m --modules-download-mode=mod'
 
 .PHONY: down
 # Kill and remove the local docker-compose containers

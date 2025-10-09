@@ -1,29 +1,43 @@
-name: Build
+# name: Build
+#
+# on:
+#   workflow_run:
+#     workflows: ["Linter & Tests"]
+#     types: [completed]
+#     branches:
+#       - '**'
+#
+# jobs:
+#   build:
+#     if: ${{ github.event.workflow_run.conclusion == 'success' }}
+#     runs-on: macos-latest
+#
+#     steps:
+#       - uses: actions/checkout@v4
+#
+#       - name: Set up Go
+#         uses: actions/setup-go@v5
+#         with:
+#           go-version: '1.25'
+#
+#       - name: Download dependencies
+#         run: go mod download
+#
+#       - name: Build
+#         run: make build
+#
+#
+#
 
+name: Debug workflow_run
 on:
   workflow_run:
     workflows: ["Linter & Tests"]
     types: [completed]
-    branches:
-      - '**'
 
 jobs:
-  build:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    runs-on: macos-latest
-
+  debug:
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Set up Go
-        uses: actions/setup-go@v5
-        with:
-          go-version: '1.25'
-
-      - name: Download dependencies
-        run: go mod download
-
-      - name: Build
-        run: make build
-
-
+      - run: echo "Event triggered!"
+      - run: echo "${{ toJson(github.event) }}"

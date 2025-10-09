@@ -1,14 +1,10 @@
 name: Build
 
 on:
-  workflow_run:
-    workflows: ["Linter & Tests"]
-    types:
-      - completed
+  workflow_call:
 
 jobs:
   build:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: macos-latest
 
     steps:

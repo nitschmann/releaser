@@ -22,11 +22,11 @@ func assignFlagsToCmd(cmd *cobra.Command, flags []configPkg.Flag) {
 		cmd.Flags().String(name, defaultValue, flag.GetDescription())
 
 		if flag.GetRequired() {
-			cmd.MarkFlagRequired(flag.GetName())
+			_ = cmd.MarkFlagRequired(flag.GetName())
 		}
 
 		if defaultValue != "" {
-			cmd.Flags().Set(name, defaultValue)
+			_ = cmd.Flags().Set(name, defaultValue)
 		}
 
 	}
@@ -84,7 +84,7 @@ func withTypeFlag(required bool) cmdOption {
 		cmd.Flags().StringP(typeFlagName, "t", "", "Specify explicit type")
 
 		if required {
-			cmd.MarkFlagRequired(typeFlagName)
+			_ = cmd.MarkFlagRequired(typeFlagName)
 		}
 	}
 }

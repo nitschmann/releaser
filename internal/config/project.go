@@ -13,12 +13,6 @@ type Project struct {
 	Paths []string `mapstructure:"paths" yaml:"paths"`
 }
 
-func newProject() Project {
-	return Project{
-		Config: New(),
-	}
-}
-
 // MatchesWithPath checks if a given path string matches with the configured Path field
 func (p Project) MatchesWithPath(pp string, textTemplateValues *data.TextTemplateValues) (bool, error) {
 	var match bool

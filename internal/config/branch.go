@@ -4,7 +4,7 @@ package config
 type Branch struct {
 	AllowedWithoutType *bool    `mapstructure:"allowed_without_type" yaml:"allowed_without_type" validate:"required"`
 	Delimiter          *string  `mapstructure:"delimiter" yaml:"delimiter" validate:"required,len=1"`
-	NameFormat         *string  `mapstructure:"name_format" yaml:"name_format" validate:"required`
+	NameFormat         *string  `mapstructure:"name_format" yaml:"name_format" validate:"required"`
 	Types              []string `mapstructure:"types" yaml:"types" validate:"required,unique,dive,lowercase,alphanum"`
 }
 

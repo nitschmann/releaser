@@ -14,7 +14,7 @@ Manage your releaser project.
 Usually all the sub-commands should be executed within an initialized git directory and repository.
 		`,
 		Run: func(cmd *cobra.Command, args []string) {
-			cmd.Help()
+			_ = cmd.Help()
 		},
 	}
 

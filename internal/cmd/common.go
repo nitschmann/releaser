@@ -16,7 +16,7 @@ func getAutoYesyByFlag(cmd *cobra.Command) (bool, error) {
 }
 
 func getCustomFlagValues(flags []configPkg.Flag, cmd *cobra.Command) (map[string]string, error) {
-	var flagValues map[string]string = make(map[string]string)
+	flagValues := make(map[string]string)
 
 	for _, flag := range flags {
 		flagName := flag.GetName()

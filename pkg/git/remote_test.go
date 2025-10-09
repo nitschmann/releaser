@@ -39,7 +39,7 @@ func (s *remoteTestSuite) TestGetHttpURL() {
 		returnedRemoteURLStr := fmt.Sprintf("git@%s:%s.git", expectedHost, expectedPath)
 		s.git.On("ExecCommand", gitCmdArgs).Once().Return(returnedRemoteURLStr, 0, nil)
 
-		remote := git.NewRemote(s.git)
+		remote := git.NewRemote(&s.git)
 		url, err := remote.GetHttpURL(remoteName)
 
 		s.NoError(err)
@@ -53,7 +53,7 @@ func (s *remoteTestSuite) TestGetHttpURL() {
 		returnedRemoteURLStr := fmt.Sprintf("https://%s/%s.git", expectedHost, expectedPath)
 		s.git.On("ExecCommand", gitCmdArgs).Once().Return(returnedRemoteURLStr, 0, nil)
 
-		remote := git.NewRemote(s.git)
+		remote := git.NewRemote(&s.git)
 		url, err := remote.GetHttpURL(remoteName)
 
 		s.NoError(err)
@@ -67,7 +67,7 @@ func (s *remoteTestSuite) TestGetHttpURL() {
 		returnedRemoteURLStr := fmt.Sprintf("http://%s/%s.git", expectedHost, expectedPath)
 		s.git.On("ExecCommand", gitCmdArgs).Once().Return(returnedRemoteURLStr, 0, nil)
 
-		remote := git.NewRemote(s.git)
+		remote := git.NewRemote(&s.git)
 		url, err := remote.GetHttpURL(remoteName)
 
 		s.NoError(err)
@@ -82,7 +82,7 @@ func (s *remoteTestSuite) TestGetProject() {
 	returnedRemoteURLStr := "git@github.com:nitschmann/releaser.git"
 	s.git.On("ExecCommand", gitCmdArgs).Once().Return(returnedRemoteURLStr, 0, nil)
 
-	remote := git.NewRemote(s.git)
+	remote := git.NewRemote(&s.git)
 	project, err := remote.GetProject(remoteName)
 
 	s.NoError(err)
@@ -97,7 +97,7 @@ func (s *remoteTestSuite) TestGetURL() {
 		returnedRemoteURLStr := "git@github.com:nitschmann/releaser.git"
 		s.git.On("ExecCommand", gitCmdArgs).Once().Return(returnedRemoteURLStr, 0, nil)
 
-		remote := git.NewRemote(s.git)
+		remote := git.NewRemote(&s.git)
 		remoteURL, err := remote.GetURL(remoteName)
 
 		s.NoError(err)
@@ -111,7 +111,7 @@ func (s *remoteTestSuite) TestGetURL() {
 		returnedRemoteURLStr := "https://github.com/nitschmann/releaser.git"
 		s.git.On("ExecCommand", gitCmdArgs).Once().Return(returnedRemoteURLStr, 0, nil)
 
-		remote := git.NewRemote(s.git)
+		remote := git.NewRemote(&s.git)
 		remoteURL, err := remote.GetURL(remoteName)
 
 		s.NoError(err)
@@ -126,7 +126,7 @@ func (s *remoteTestSuite) TestGetURL() {
 		returnedRemoteURLStr := fmt.Sprintf("git@%s:project/repo.git", host)
 		s.git.On("ExecCommand", gitCmdArgs).Once().Return(returnedRemoteURLStr, 0, nil)
 
-		remote := git.NewRemote(s.git)
+		remote := git.NewRemote(&s.git)
 		remoteURL, err := remote.GetURL(remoteName)
 
 		s.NoError(err)

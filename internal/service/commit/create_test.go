@@ -39,7 +39,7 @@ func (s *createServiceTestSuite) defaultTextTemplateValues() *data.TextTemplateV
 }
 
 func (s *createServiceTestSuite) defaultSerivce() commit.CreateService {
-	return commit.NewCreateService(s.git)
+	return commit.NewCreateService(&s.git)
 }
 
 func (s *createServiceTestSuite) TestCall() {

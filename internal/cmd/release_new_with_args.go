@@ -21,7 +21,7 @@ var releaseNewCmdWithArgs *cobra.Command = cmdWithOptions(
 			givenOption := args[0]
 
 			if !helper.StringSliceIncludesElement(validOptions, givenOption) {
-				return fmt.Errorf("Invalid option '%s' given. Valid options are %v", givenOption, validOptions)
+				return fmt.Errorf("invalid option '%s' given. valid options are %v", givenOption, validOptions)
 			}
 
 			ctx := cmd.Context()
@@ -83,7 +83,6 @@ var releaseNewCmdWithArgs *cobra.Command = cmdWithOptions(
 			case "target":
 				fmt.Println(r.Target)
 			}
-
 
 			return nil
 		},

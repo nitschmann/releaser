@@ -71,7 +71,7 @@ their corresponding logs.`,
 		SilenceErrors: true,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
-				cmd.Help()
+				_ = cmd.Help()
 			}
 
 			return nil

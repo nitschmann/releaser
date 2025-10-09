@@ -10,7 +10,7 @@ func newConfigCmd() *cobra.Command {
 		Short: "Manage the releaser configuration",
 		Long:  "Manage the configuration (file) of releaser",
 		Run: func(cmd *cobra.Command, args []string) {
-			cmd.Help()
+			_ = cmd.Help()
 		},
 	}
 

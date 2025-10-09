@@ -9,6 +9,9 @@ import (
 	"text/template"
 	"time"
 
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
+
 	"github.com/nitschmann/releaser/pkg/git"
 )
 
@@ -70,10 +73,11 @@ func (ttv *TextTemplateValues) AddFlag(key, value string) {
 }
 
 func (ttv *TextTemplateValues) helperFunctions() template.FuncMap {
+	c := cases.Title(language.English)
 	return template.FuncMap{
 		"ToLower": strings.ToLower,
 		"ToUpper": strings.ToUpper,
-		"ToTitle": strings.Title,
+		"ToTitle": c.String,
 	}
 }
 

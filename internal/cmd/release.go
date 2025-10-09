@@ -9,7 +9,7 @@ func newReleaseCmd() *cobra.Command {
 		Short:   "Manage releases",
 		Long:    "Generate, manage and publish releases in the project",
 		Run: func(cmd *cobra.Command, args []string) {
-			cmd.Help()
+			_ = cmd.Help()
 		},
 	}
 

@@ -55,7 +55,7 @@ func (s *generateService) Call(
 	tag string,
 	target string,
 ) (*release.Release, error) {
-	var result *release.Release = &release.Release{}
+	result := &release.Release{}
 
 	// Validate custom customFlags
 	err := service.ValidateCustomFlags(cfg.GetFlagsForRelease().Names(), customFlags)

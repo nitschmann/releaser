@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path"
 
@@ -117,7 +116,7 @@ func (s *initService) createConfigFile(ctx context.Context, configDir string, au
 		return err
 	}
 
-	err = ioutil.WriteFile(configFilepath, yamlData, 0644)
+	err = os.WriteFile(configFilepath, yamlData, 0644)
 	if err != nil {
 		return err
 	}

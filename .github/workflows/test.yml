@@ -31,7 +31,3 @@ jobs:
 
       - name: Run tests
         run: make run-tests
-
-  build:
-    needs: test
-    uses: ./.github/workflows/build.yml
